@@ -9,7 +9,8 @@ namespace Models
     public class Podcast
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
         public string Name { get; set; }         
         public string FeedUrl { get; set; }       

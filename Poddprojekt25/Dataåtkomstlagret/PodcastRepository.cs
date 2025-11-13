@@ -19,24 +19,32 @@ namespace Dataåtkomstlagret
             await podcastKollektion.InsertOneAsync(podcast);
         }
 
-        public async Task<IEnumerable<Podcast>> GetAllAsync()
+        public async Task<List<Podcast>> GetAllAsync()
         {
-            return await podcastKollektion.Find(_ => true).ToListAsync();
+            var filter = Builders<Podcast>.Filter.Empty;
+            return await podcastKollektion.Find(filter).ToListAsync();
         }
+
 
         public async Task DeleteAsync(string id)
         {
-            await podcastKollektion.DeleteOneAsync(p => p.Id == MongoDB.Bson.ObjectId.Parse(id));
+            var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
+                await podcastKollektion.DeleteOneAsync(filter);
+            
+           
         }
 
         public async Task<Podcast> GetByIdAsync(string id)
         {
-            return await podcastKollektion.Find(p => p.Id == MongoDB.Bson.ObjectId.Parse(id)).FirstOrDefaultAsync();
+            var filter=Builders<Podcast>.Filter.Eq(p => p.Id, id);
+            return await podcastKollektion.Find(filter).FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(Podcast podcast)
+
         {
-            await podcastKollektion.ReplaceOneAsync(p => p.Id == podcast.Id, podcast);
+            var filter= Builders<Podcast>.Filter.Eq(p => p.Id, podcast.Id);
+            var updateResult= await podcastKollektion.ReplaceOneAsync(filter, podcast);
         }
     }
 }

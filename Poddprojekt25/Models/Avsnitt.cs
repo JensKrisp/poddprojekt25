@@ -14,4 +14,5 @@ namespace Models
         public string Link { get; set; }
         public string Guid { get; set; }
     }
+
 }
