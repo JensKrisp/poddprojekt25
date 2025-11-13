@@ -15,6 +15,6 @@ namespace Models
         public string FeedUrl { get; set; }       
         public string Category { get; set; } 
         public DateTime CreatedAt { get; set; }
-        public List<Episode> Episodes { get; set; } = new();
+        public List<Avsnitt> Episodes { get; set; } = new();
     }
 }

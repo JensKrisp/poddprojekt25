@@ -1,9 +1,9 @@
-﻿using MongoDB.Driver;
-using Models;
+﻿using Models;
+using MongoDB.Driver;
 
 namespace Dataåtkomstlagret
 {
-    public class PodcastRepository : IPodcastRepository???
+    public class PodcastRepository : IPodcastRepository
     {
         private readonly IMongoCollection<Podcast> podcastKollektion;
 
@@ -17,6 +17,26 @@ namespace Dataåtkomstlagret
         public async Task AddAsync(Podcast podcast)
         {
             await podcastKollektion.InsertOneAsync(podcast);
+        }
+
+        public async Task<IEnumerable<Podcast>> GetAllAsync()
+        {
+            return await podcastKollektion.Find(_ => true).ToListAsync();
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            await podcastKollektion.DeleteOneAsync(p => p.Id == MongoDB.Bson.ObjectId.Parse(id));
+        }
+
+        public async Task<Podcast> GetByIdAsync(string id)
+        {
+            return await podcastKollektion.Find(p => p.Id == MongoDB.Bson.ObjectId.Parse(id)).FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateAsync(Podcast podcast)
+        {
+            await podcastKollektion.ReplaceOneAsync(p => p.Id == podcast.Id, podcast);
         }
     }
 }

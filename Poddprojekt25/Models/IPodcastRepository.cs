@@ -1,6 +1,4 @@
-﻿using Models;
-
-namespace Affärslogiklagret
+﻿namespace Models
 {
     public interface IPodcastRepository
     {
