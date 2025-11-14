@@ -1,5 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
+using Models;
+using Affärslogiklagret;
+using Dataåtkomstlagret;
 
 namespace Poddprojekt25
 {
@@ -11,14 +14,24 @@ namespace Poddprojekt25
         [STAThread]
         static void Main()
         {
+            HttpClient http = new HttpClient();
+            var klient = new RssKlient(http);
+            var konfiguration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var connectionString = konfiguration.GetConnectionString("PodcastDatabase");
+
+            // Skapa repositories
+            var podcastRepository = new PodcastRepository(connectionString);
+            var avsnittRepository = new AvsnittRepository(connectionString);
+
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
 
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            
         }
     }
 }
