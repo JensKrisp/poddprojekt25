@@ -9,7 +9,7 @@ namespace Poddprojekt25
 
         private void visapoddFlöde_Click(object sender, EventArgs e)
         {
-            //metod som returnerar en lista baserad på rss flödet, överför till poddlistan
+            //metod som returnerar en lista poddar baserad på rss flödet, överför till poddlistan
             //bör också uppdatera kategorierna i sorteraKategorier
         }
 
@@ -68,6 +68,41 @@ namespace Poddprojekt25
         private void skapanyKategori_Click(object sender, EventArgs e)
         {
             //kanske en ny messagebox? iallafall en metod som tar emot en string och lägger till som tillgänglig kategori, vi kommer nog behöva spara kategorier som sin egen grej.... 
+        }
+
+        private void redigeraKategori_Click(object sender, EventArgs e)
+        {
+            // en metod som tar emot en string och kategoriID och uppdaterar kategorin i databasen
+        }
+
+        private void raderaKategori_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //lite liknande som radera podd, en messagebox med ja eller nej, sedan en metod som tar bort kategorin ur kategorilistan, frågor om hur det blir med de poddar som förlorar sin kategori :(
+        }
+
+        private void listaPoddarKategori_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //metod tar emot en string som uppdaterar poddlistan baserat på vald kategori
+        }
+
+        private void listaAvsnittMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //metod som tar emot avsnittsID eller nåt sånt och returnerar string med beskrivning
+        }
+
+        private void avsnittBeskrivningMinaSidor_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void sorteraKategorier2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //metod som tar emot en kategori och uppdaterar poddlistan i mina sparade poddar
+        }
+
+        private void listaKategorier_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //funderar vi istället använder denna lista för kategorihantering, metoderna i affärslogikslagret är dock desamma
         }
     }
 }

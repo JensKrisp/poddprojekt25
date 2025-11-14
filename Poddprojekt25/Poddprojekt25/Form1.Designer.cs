@@ -35,8 +35,6 @@
             sparaPodd = new Button();
             raderapodd = new Button();
             skapanyKategori = new Button();
-            redigeraKategori = new Button();
-            raderaKategori = new Button();
             poddTabbar = new TabControl();
             tabPage1 = new TabPage();
             sorteraKategorier = new ComboBox();
@@ -51,6 +49,8 @@
             listaAvsnittMinaSidor = new ListView();
             listaPoddarMinaSidor = new ListView();
             tabPage3 = new TabPage();
+            raderaKategori = new ComboBox();
+            redigeraKategori = new ComboBox();
             visaKategorier = new Button();
             listaKategorier = new ListView();
             listaPoddarKategori = new ListView();
@@ -125,24 +125,6 @@
             skapanyKategori.Text = "skapaNyKategori";
             skapanyKategori.UseVisualStyleBackColor = true;
             skapanyKategori.Click += skapanyKategori_Click;
-            // 
-            // redigeraKategori
-            // 
-            redigeraKategori.Location = new Point(358, 65);
-            redigeraKategori.Name = "redigeraKategori";
-            redigeraKategori.Size = new Size(94, 29);
-            redigeraKategori.TabIndex = 11;
-            redigeraKategori.Text = "redigeraKategori";
-            redigeraKategori.UseVisualStyleBackColor = true;
-            // 
-            // raderaKategori
-            // 
-            raderaKategori.Location = new Point(358, 124);
-            raderaKategori.Name = "raderaKategori";
-            raderaKategori.Size = new Size(94, 29);
-            raderaKategori.TabIndex = 12;
-            raderaKategori.Text = "raderaKategori";
-            raderaKategori.UseVisualStyleBackColor = true;
             // 
             // poddTabbar
             // 
@@ -239,6 +221,7 @@
             sorteraKategorier2.Name = "sorteraKategorier2";
             sorteraKategorier2.Size = new Size(151, 28);
             sorteraKategorier2.TabIndex = 18;
+            sorteraKategorier2.SelectedIndexChanged += sorteraKategorier2_SelectedIndexChanged;
             // 
             // uppdateraPoddlistaMinaSidor
             // 
@@ -256,6 +239,7 @@
             avsnittBeskrivningMinaSidor.Size = new Size(125, 256);
             avsnittBeskrivningMinaSidor.TabIndex = 16;
             avsnittBeskrivningMinaSidor.Text = "";
+            avsnittBeskrivningMinaSidor.TextChanged += avsnittBeskrivningMinaSidor_TextChanged;
             // 
             // listaAvsnittMinaSidor
             // 
@@ -264,6 +248,7 @@
             listaAvsnittMinaSidor.Size = new Size(151, 256);
             listaAvsnittMinaSidor.TabIndex = 15;
             listaAvsnittMinaSidor.UseCompatibleStateImageBehavior = false;
+            listaAvsnittMinaSidor.SelectedIndexChanged += listaAvsnittMinaSidor_SelectedIndexChanged;
             // 
             // listaPoddarMinaSidor
             // 
@@ -276,12 +261,12 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(raderaKategori);
+            tabPage3.Controls.Add(redigeraKategori);
             tabPage3.Controls.Add(visaKategorier);
             tabPage3.Controls.Add(listaKategorier);
             tabPage3.Controls.Add(listaPoddarKategori);
             tabPage3.Controls.Add(skapanyKategori);
-            tabPage3.Controls.Add(redigeraKategori);
-            tabPage3.Controls.Add(raderaKategori);
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
@@ -289,6 +274,23 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "tabPage3";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // raderaKategori
+            // 
+            raderaKategori.FormattingEnabled = true;
+            raderaKategori.Location = new Point(347, 123);
+            raderaKategori.Name = "raderaKategori";
+            raderaKategori.Size = new Size(151, 28);
+            raderaKategori.TabIndex = 17;
+            raderaKategori.SelectedIndexChanged += raderaKategori_SelectedIndexChanged;
+            // 
+            // redigeraKategori
+            // 
+            redigeraKategori.FormattingEnabled = true;
+            redigeraKategori.Location = new Point(520, 123);
+            redigeraKategori.Name = "redigeraKategori";
+            redigeraKategori.Size = new Size(151, 28);
+            redigeraKategori.TabIndex = 16;
             // 
             // visaKategorier
             // 
@@ -307,6 +309,7 @@
             listaKategorier.Size = new Size(143, 337);
             listaKategorier.TabIndex = 14;
             listaKategorier.UseCompatibleStateImageBehavior = false;
+            listaKategorier.SelectedIndexChanged += listaKategorier_SelectedIndexChanged;
             // 
             // listaPoddarKategori
             // 
@@ -315,6 +318,7 @@
             listaPoddarKategori.Size = new Size(143, 337);
             listaPoddarKategori.TabIndex = 13;
             listaPoddarKategori.UseCompatibleStateImageBehavior = false;
+            listaPoddarKategori.SelectedIndexChanged += listaPoddarKategori_SelectedIndexChanged;
             // 
             // Form1
             // 
@@ -341,8 +345,6 @@
         private Button sparaPodd;
         private Button raderapodd;
         private Button skapanyKategori;
-        private Button redigeraKategori;
-        private Button raderaKategori;
         private TabControl poddTabbar;
         private TabPage tabPage1;
         private TabPage tabPage2;
@@ -360,5 +362,7 @@
         private Button visaKategorier;
         private ListView listaKategorier;
         private ListView listaPoddarKategori;
+        private ComboBox redigeraKategori;
+        private ComboBox raderaKategori;
     }
 }
