@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Dataåtkomstlagret
 {
-    public class PodcastRepository : IPodcastRepository
+    public class PodcastRepository : IRepository<Podcast>
     {
         private readonly IMongoCollection<Podcast> podcastKollektion;
 
@@ -14,37 +14,33 @@ namespace Dataåtkomstlagret
             podcastKollektion = databas.GetCollection<Podcast>("Podcasts");
         }
 
-        public async Task AddAsync(Podcast podcast)
+        public async Task<Podcast> HämtaMedIdAsync(string id)
         {
-            await podcastKollektion.InsertOneAsync(podcast);
+            var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
+            return await podcastKollektion.Find(filter).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Podcast>> GetAllAsync()
+        public async Task<List<Podcast>> HämtaAllaAsync()
         {
             var filter = Builders<Podcast>.Filter.Empty;
             return await podcastKollektion.Find(filter).ToListAsync();
         }
 
+        public async Task LäggTillAsync(Podcast podcast)
+        {
+            await podcastKollektion.InsertOneAsync(podcast);
+        }
 
-        public async Task DeleteAsync(string id)
+        public async Task UppdateraAsync(Podcast uppdateradPodcast)
+        {
+            var filter= Builders<Podcast>.Filter.Eq(p => p.Id, uppdateradPodcast.Id);
+            var updateResult= await podcastKollektion.ReplaceOneAsync(filter, uppdateradPodcast);
+        }
+
+        public async Task TaBortAsync(string id)
         {
             var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
-                await podcastKollektion.DeleteOneAsync(filter);
-            
-           
-        }
-
-        public async Task<Podcast> GetByIdAsync(string id)
-        {
-            var filter=Builders<Podcast>.Filter.Eq(p => p.Id, id);
-            return await podcastKollektion.Find(filter).FirstOrDefaultAsync();
-        }
-
-        public async Task UpdateAsync(Podcast podcast)
-
-        {
-            var filter= Builders<Podcast>.Filter.Eq(p => p.Id, podcast.Id);
-            var updateResult= await podcastKollektion.ReplaceOneAsync(filter, podcast);
-        }
+            await podcastKollektion.DeleteOneAsync(filter);
+        } 
     }
 }
