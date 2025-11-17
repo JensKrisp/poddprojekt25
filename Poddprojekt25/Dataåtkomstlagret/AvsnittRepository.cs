@@ -12,10 +12,10 @@ namespace Dataåtkomstlagret
     {
         private readonly IMongoCollection<Avsnitt> avsnittKollektion;
 
-        public AvsnittRepository(string connectionString)
+        public AvsnittRepository()
         {
-            var klient = new MongoClient(connectionString);
-            var databas = klient.GetDatabase("Podprojekt25");
+            var klient = new MongoClient("mongodb+srv://minnaseger_db_user:Hejsanhoppsan123!@cluster0.n1t8w3b.mongodb.net/?appName=Cluster0");
+            var databas = klient.GetDatabase("Poddprojekt25");
             avsnittKollektion = databas.GetCollection<Avsnitt>("Avsnitt");
         }
 

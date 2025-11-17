@@ -15,7 +15,7 @@ namespace Dataåtkomstlagret
 
         public RssKlient(HttpClient httpKlient)
         {
-            enHttpKlient = httpKlient;
+            this.enHttpKlient = enHttpKlient;
         }
         //public async Task<Podcast> HämtaPodcast(string rssUrl)
         //{

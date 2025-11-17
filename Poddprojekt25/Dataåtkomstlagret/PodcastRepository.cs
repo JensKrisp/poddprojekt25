@@ -7,13 +7,14 @@ namespace Dataåtkomstlagret
     {
         private readonly IMongoCollection<Podcast> podcastKollektion;
 
-        public PodcastRepository(string connectionString)
+        public PodcastRepository()
         {
-            var klient = new MongoClient(connectionString);
-            var databas = klient.GetDatabase("Podprojekt25");
-            podcastKollektion = databas.GetCollection<Podcast>("Podcasts");
-        }
 
+            var klient = new MongoClient("mongodb+srv://minnaseger_db_user:Hejsanhoppsan123!@cluster0.n1t8w3b.mongodb.net/?appName=Cluster0");
+            var databas = klient.GetDatabase("Poddprojekt25");
+            podcastKollektion = databas.GetCollection<Podcast>("Podcasts");
+
+        }
         public async Task<Podcast> HämtaMedIdAsync(string id)
         {
             var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);

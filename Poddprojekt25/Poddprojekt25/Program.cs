@@ -23,13 +23,13 @@ namespace Poddprojekt25
             var connectionString = konfiguration.GetConnectionString("Podprojekt25");
 
             // Skapa repositories
-            var podcastRepository = new PodcastRepository(connectionString);
-            var avsnittRepository = new AvsnittRepository(connectionString);
-
+            var podcastRepository = new PodcastRepository();
+            var avsnittRepository = new AvsnittRepository();
+           
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new Form1(new PodcastAppService(klient)));
 
             
         }
