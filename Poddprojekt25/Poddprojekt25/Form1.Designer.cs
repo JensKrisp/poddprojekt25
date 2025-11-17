@@ -54,6 +54,7 @@
             visaKategorier = new Button();
             listaKategorier = new ListView();
             listaPoddarKategori = new ListView();
+            listaAvsnittBox = new ListBox();
             poddTabbar.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -139,6 +140,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(listaAvsnittBox);
             tabPage1.Controls.Add(sorteraKategorier);
             tabPage1.Controls.Add(publiceringsDatum);
             tabPage1.Controls.Add(senareDatum);
@@ -320,6 +322,14 @@
             listaPoddarKategori.UseCompatibleStateImageBehavior = false;
             listaPoddarKategori.SelectedIndexChanged += listaPoddarKategori_SelectedIndexChanged;
             // 
+            // listaAvsnittBox
+            // 
+            listaAvsnittBox.FormattingEnabled = true;
+            listaAvsnittBox.Location = new Point(463, 77);
+            listaAvsnittBox.Name = "listaAvsnittBox";
+            listaAvsnittBox.Size = new Size(139, 164);
+            listaAvsnittBox.TabIndex = 15;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -364,5 +374,6 @@
         private ListView listaPoddarKategori;
         private ComboBox redigeraKategori;
         private ComboBox raderaKategori;
+        private ListBox listaAvsnittBox;
     }
 }

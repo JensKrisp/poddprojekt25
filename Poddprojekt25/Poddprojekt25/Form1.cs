@@ -1,14 +1,35 @@
+using Models;
+using Affärslogiklagret;
+
 namespace Poddprojekt25
 {
     public partial class Form1 : Form
-    {
-        public Form1()
+    { private PodcastAppService PodcastAppService;
+        private List<Avsnitt> allaAvsnitt;
+
+        public Form1(PodcastAppService PodcastAppService)
         {
+            this.PodcastAppService = PodcastAppService;
             InitializeComponent();
         }
 
-        private void visapoddFlöde_Click(object sender, EventArgs e)
+        private async void visapoddFlöde_Click(object sender, EventArgs e)
         {
+            try { var Podcast = new Podcast();
+                Podcast.Id = Guid.NewGuid().ToString();
+                Podcast.URL = URL.Text;
+                allaAvsnitt = await PodcastAppService.LäsInAllaAvsnitt(Podcast);
+                listaAvsnittBox.DisplayMember = "Titel";
+                listaAvsnitt.Items.Clear();
+                foreach (Avsnitt avsnitt in allaAvsnitt)
+                {
+                    listaAvsnittBox.Items.Add(avsnitt);
+                }
+                
+            }catch(Exception ex) {
+                MessageBox.Show("kolla, det blev fel, alltihop");
+
+            }
             //metod som returnerar en lista poddar baserad på rss flödet, överför till poddlistan
             //bör också uppdatera kategorierna i sorteraKategorier
         }

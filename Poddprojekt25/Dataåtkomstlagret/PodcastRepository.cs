@@ -9,11 +9,12 @@ namespace Dataåtkomstlagret
 
         public PodcastRepository(string connectionString)
         {
+
             var klient = new MongoClient(connectionString);
             var databas = klient.GetDatabase("Podprojekt25");
             podcastKollektion = databas.GetCollection<Podcast>("Podcasts");
-        }
 
+        }
         public async Task<Podcast> HämtaMedIdAsync(string id)
         {
             var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
