@@ -11,11 +11,17 @@ namespace Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        
+        [BsonElement("Titel")]
+        public string Titel { get; set; }
 
-        public string Name { get; set; }         
-        public string FeedUrl { get; set; }       
-        public string Category { get; set; } 
-        public DateTime CreatedAt { get; set; }
-        public List<Avsnitt> Episodes { get; set; } = new();
+        [BsonElement("URL")]
+        public string URL { get; set; }
+
+        [BsonElement("Kategori")]
+        public string Kategori { get; set; }
+
+        [BsonElement("Avsnitt")]
+        public List<Avsnitt>? Avsnitt { get; set; }
     }
 }
