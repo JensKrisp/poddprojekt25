@@ -20,7 +20,7 @@ namespace Poddprojekt25
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var connectionString = konfiguration.GetConnectionString("PodcastDatabase");
+            var connectionString = konfiguration.GetConnectionString("Podprojekt25");
 
             // Skapa repositories
             var podcastRepository = new PodcastRepository(connectionString);

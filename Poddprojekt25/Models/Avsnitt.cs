@@ -12,13 +12,13 @@ namespace Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [BsonElement("Titel")]
-        public string Titel { get; set; }
+        public string? Titel { get; set; }
 
         [BsonElement("Beskrivning")]
-        public string Beskrivning { get; set; }
+        public string? Beskrivning { get; set; }
 
         [BsonElement("Publiceringsdatum")]
         public DateTime? Publiceringsdatum { get; set; }
