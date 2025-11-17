@@ -32,10 +32,10 @@ namespace Dataåtkomstlagret
             await podcastKollektion.InsertOneAsync(podcast);
         }
 
-        public async Task UppdateraAsync(Podcast uppdateradPodcast)
+        public async Task UppdateraAsync(Podcast uppdateradPodcast, IClientSessionHandle session)
         {
             var filter= Builders<Podcast>.Filter.Eq(p => p.Id, uppdateradPodcast.Id);
-            var updateResult= await podcastKollektion.ReplaceOneAsync(filter, uppdateradPodcast);
+            var updateResult= await podcastKollektion.ReplaceOneAsync(session, filter, uppdateradPodcast);
         }
 
         public async Task TaBortAsync(string id)

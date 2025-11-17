@@ -1,4 +1,5 @@
 ﻿using Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Dataåtkomstlagret
         Task<T> HämtaMedIdAsync(string id);
         Task<List<T>> HämtaAllaAsync();
         Task LäggTillAsync(T entitet);
-        Task UppdateraAsync(T uppdatering);
+        Task UppdateraAsync(T uppdatering, IClientSessionHandle session);
         Task TaBortAsync(string id);
     }
 }

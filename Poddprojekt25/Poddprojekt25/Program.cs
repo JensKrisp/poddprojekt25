@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration.Json;
 using Models;
 using Affärslogiklagret;
 using Dataåtkomstlagret;
+using MongoDB.Driver;
 
 namespace Poddprojekt25
 {
@@ -22,14 +23,20 @@ namespace Poddprojekt25
 
             var connectionString = konfiguration.GetConnectionString("Podprojekt25");
 
+            var MongoClient = new MongoClient(connectionString);
+
+            
             // Skapa repositories
             var podcastRepository = new PodcastRepository();
             var avsnittRepository = new AvsnittRepository();
+
+            var service = new PodcastAppService(klient, podcastRepository, avsnittRepository, MongoClient);
+
            
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1(new PodcastAppService(klient)));
+            Application.Run(new Form1(service));
 
             
         }

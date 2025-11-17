@@ -13,43 +13,43 @@ namespace Dataåtkomstlagret
     {
         private readonly HttpClient enHttpKlient;
 
-        public RssKlient(HttpClient httpKlient)
+        public RssKlient(HttpClient enHttpKlient)
         {
             this.enHttpKlient = enHttpKlient;
         }
-        //public async Task<Podcast> HämtaPodcast(string rssUrl)
-        //{
-        //    Stream dataStröm = await enHttpKlient.GetStreamAsync(rssUrl);
-        //    XmlReader xmlLäsare = XmlReader.Create(dataStröm);
-        //    SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
+        public async Task<Podcast> HämtaPodcast(string rssUrl)
+        {
+            Stream dataStröm = await enHttpKlient.GetStreamAsync(rssUrl);
+            XmlReader xmlLäsare = XmlReader.Create(dataStröm);
+            SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
 
-        //    xmlLäsare.Dispose();
-        //    dataStröm.Dispose();
+            xmlLäsare.Dispose();
+            dataStröm.Dispose();
 
-        //    Podcast podcast = new Podcast
-        //    {
-        //        Titel = dataFlöde.Title?.Text ?? "Okänd titel",
-        //        URL = rssUrl,
-        //        Kategori = "", // användaren väljer kategori senare
-        //        Avsnitt = new List<Avsnitt>()
-        //    };
+            Podcast podcast = new Podcast
+            {
+                Titel = dataFlöde.Title?.Text ?? "Okänd titel",
+                URL = rssUrl,
+                Kategori = "", // användaren väljer kategori senare
+                Avsnitt = new List<Avsnitt>()
+            };
 
-        //    foreach (SyndicationItem item in dataFlöde.Items)
-        //    {
-        //        Avsnitt avsnitt = new Avsnitt
-        //        {
-        //            RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
-        //            Titel = item.Title?.Text ?? "Okänd titel",
-        //            Beskrivning = item.Summary?.Text ?? "",
-        //            Publiceringsdatum = item.PublishDate.UtcDateTime,
-        //        };
+            foreach (SyndicationItem item in dataFlöde.Items)
+            {
+                Avsnitt avsnitt = new Avsnitt
+                {
+                    RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
+                    Titel = item.Title?.Text ?? "Okänd titel",
+                    Beskrivning = item.Summary?.Text ?? "",
+                    Publiceringsdatum = item.PublishDate.UtcDateTime,
+                };
 
 
-        //        podcast.Avsnitt.Add(avsnitt);
-        //    }
+                podcast.Avsnitt.Add(avsnitt);
+            }
 
-        //    return podcast;
-        //}
+            return podcast;
+        }
 
 
         public async Task<List<Avsnitt>> HämtaAvsnitt(string rssUrl)
