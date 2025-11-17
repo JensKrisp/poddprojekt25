@@ -12,7 +12,10 @@ namespace Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+        public string? Id { get; set; } /*= ObjectId.GenerateNewId().ToString();*/
+
+        [BsonElement("RssId")]
+        public string? RssId { get; set; }
 
         [BsonElement("Titel")]
         public string? Titel { get; set; }
@@ -22,9 +25,6 @@ namespace Models
 
         [BsonElement("Publiceringsdatum")]
         public DateTime? Publiceringsdatum { get; set; }
-
-        //[BsonElement("URL")]
-        //public string URL { get; set; }
 
         [BsonElement("PodcastId")]
         [BsonRepresentation(BsonType.ObjectId)]
