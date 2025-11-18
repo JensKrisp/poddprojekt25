@@ -36,22 +36,33 @@ namespace Affärslogiklagret
         // Spara podcast och avsnitt i transaktion 
         public async Task SparaPodcastMedAvsnitt(Podcast podcast)
         {
-            using var session = await mongoKlient.StartSessionAsync(); 
+            using var session = await 
+            mongoKlient.StartSessionAsync(); 
             session.StartTransaction();
 
             try
             {
+                //Validering om podd redan finns sparad
+                var filter = Builders<Podcast>.Filter.Eq(P => P.Titel, podcast.Titel);
+                var befintligPodcast = await podcastRepo.PodcastCollection.Find(filter).FirstOrDefaultAsync();
+
+                if (befintligPodcast != null)
+                {
+                    throw new InvalidOperationException("Podcasten finns redan sparad i databasen."); 
+                }
+
+                //Spara podcast
                 await podcastRepo.LäggTillAsync(podcast);
 
+                //Spara avsnitt
                 foreach (var avsnitt in podcast.Avsnitt)
                 {
                     avsnitt.PodcastId = podcast.Id;
-
-                    avsnitt.Id = null; // MongoDB skapar id
+                    avsnitt.Id = null; // MongoDB skapar id 
                     await avsnittRepo.LäggTillAsync(avsnitt);
                 }
 
-                await session.CommitTransactionAsync();
+                await session.CommitTransactionAsync(); 
             }
             catch
             {

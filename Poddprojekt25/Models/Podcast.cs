@@ -7,6 +7,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Models
 {
     public class Podcast
+
+        //hej testar en grej 
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
