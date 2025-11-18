@@ -10,7 +10,7 @@ namespace Dataåtkomstlagret
         public PodcastRepository()
         {
 
-            var klient = new MongoClient("mongodb+srv://minnaseger_db_user:Hejsanhoppsan123!@cluster0.n1t8w3b.mongodb.net/?appName=Cluster0");
+            var klient = new MongoClient("mongodb+srv://minnaseger_db_user:Hejsanhoppsan123@cluster0.n1t8w3b.mongodb.net/?appName=Cluster0");
             var databas = klient.GetDatabase("Poddprojekt25");
             podcastKollektion = databas.GetCollection<Podcast>("Podcasts");
 
