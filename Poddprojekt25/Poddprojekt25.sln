@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Affärslogiklagret", "Affärslogiklagret\Affärslogiklagret.csproj", "{55ADEC43-77D4-8C8D-7C79-1D53197A966C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dataåtkomstlagret", "Dataåtkomstlagret\Dataåtkomstlagret.csproj", "{32D12F93-48B4-7249-A338-CC7D665DBC90}"
+	ProjectSection(ProjectDependencies) = postProject
+		{262C6A48-AE34-D77E-44A9-AF0CD30983F0} = {262C6A48-AE34-D77E-44A9-AF0CD30983F0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{262C6A48-AE34-D77E-44A9-AF0CD30983F0}"
 EndProject

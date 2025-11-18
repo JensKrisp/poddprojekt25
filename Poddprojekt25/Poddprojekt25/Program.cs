@@ -21,7 +21,7 @@ namespace Poddprojekt25
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var connectionString = konfiguration.GetConnectionString("Podprojekt25");
+            var connectionString = konfiguration.GetConnectionString("Poddprojekt25");
 
             var MongoClient = new MongoClient(connectionString);
 
