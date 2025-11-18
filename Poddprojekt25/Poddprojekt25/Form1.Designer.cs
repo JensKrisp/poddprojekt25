@@ -28,46 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            listaPoddar = new ListView();
             uppdateraPoddFlöde = new Button();
-            listaAvsnitt = new ListView();
             URL = new TextBox();
             sparaPodd = new Button();
             raderapodd = new Button();
             skapanyKategori = new Button();
             poddTabbar = new TabControl();
             tabPage1 = new TabPage();
+            listaAvsnittBox = new ListBox();
             sorteraKategorier = new ComboBox();
             publiceringsDatum = new Button();
             senareDatum = new DateTimePicker();
             tidigareDatum = new DateTimePicker();
             avsnittBeskrivning = new RichTextBox();
             tabPage2 = new TabPage();
+            beskrivningsBoxMinaSidor = new RichTextBox();
+            listaAvsnittMinaSidor = new ListBox();
+            listaPodcastMinaSidor = new ListBox();
             sorteraKategorier2 = new ComboBox();
             uppdateraPoddlistaMinaSidor = new Button();
-            avsnittBeskrivningMinaSidor = new RichTextBox();
-            listaAvsnittMinaSidor = new ListView();
-            listaPoddarMinaSidor = new ListView();
             tabPage3 = new TabPage();
             raderaKategori = new ComboBox();
             redigeraKategori = new ComboBox();
             visaKategorier = new Button();
             listaKategorier = new ListView();
             listaPoddarKategori = new ListView();
-            listaAvsnittBox = new ListBox();
             poddTabbar.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
             SuspendLayout();
-            // 
-            // listaPoddar
-            // 
-            listaPoddar.Location = new Point(6, 62);
-            listaPoddar.Name = "listaPoddar";
-            listaPoddar.Size = new Size(94, 210);
-            listaPoddar.TabIndex = 0;
-            listaPoddar.UseCompatibleStateImageBehavior = false;
             // 
             // uppdateraPoddFlöde
             // 
@@ -78,15 +68,6 @@
             uppdateraPoddFlöde.Text = "uppdatFlöde";
             uppdateraPoddFlöde.UseVisualStyleBackColor = true;
             uppdateraPoddFlöde.Click += visapoddFlöde_Click;
-            // 
-            // listaAvsnitt
-            // 
-            listaAvsnitt.Location = new Point(116, 62);
-            listaAvsnitt.Name = "listaAvsnitt";
-            listaAvsnitt.Size = new Size(128, 210);
-            listaAvsnitt.TabIndex = 3;
-            listaAvsnitt.UseCompatibleStateImageBehavior = false;
-            listaAvsnitt.SelectedIndexChanged += listaAvsnitt_SelectedIndexChanged;
             // 
             // URL
             // 
@@ -147,8 +128,6 @@
             tabPage1.Controls.Add(tidigareDatum);
             tabPage1.Controls.Add(avsnittBeskrivning);
             tabPage1.Controls.Add(URL);
-            tabPage1.Controls.Add(listaPoddar);
-            tabPage1.Controls.Add(listaAvsnitt);
             tabPage1.Controls.Add(sparaPodd);
             tabPage1.Controls.Add(uppdateraPoddFlöde);
             tabPage1.Location = new Point(4, 29);
@@ -158,6 +137,15 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // listaAvsnittBox
+            // 
+            listaAvsnittBox.FormattingEnabled = true;
+            listaAvsnittBox.Location = new Point(23, 63);
+            listaAvsnittBox.Name = "listaAvsnittBox";
+            listaAvsnittBox.Size = new Size(175, 224);
+            listaAvsnittBox.TabIndex = 15;
+            listaAvsnittBox.SelectedIndexChanged += listaAvsnittBox_SelectedIndexChanged;
             // 
             // sorteraKategorier
             // 
@@ -194,19 +182,20 @@
             // 
             // avsnittBeskrivning
             // 
-            avsnittBeskrivning.Location = new Point(260, 62);
+            avsnittBeskrivning.Location = new Point(232, 63);
             avsnittBeskrivning.Name = "avsnittBeskrivning";
-            avsnittBeskrivning.Size = new Size(129, 210);
+            avsnittBeskrivning.Size = new Size(250, 219);
             avsnittBeskrivning.TabIndex = 10;
             avsnittBeskrivning.Text = "";
+            avsnittBeskrivning.TextChanged += avsnittBeskrivning_TextChanged;
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(beskrivningsBoxMinaSidor);
+            tabPage2.Controls.Add(listaAvsnittMinaSidor);
+            tabPage2.Controls.Add(listaPodcastMinaSidor);
             tabPage2.Controls.Add(sorteraKategorier2);
             tabPage2.Controls.Add(uppdateraPoddlistaMinaSidor);
-            tabPage2.Controls.Add(avsnittBeskrivningMinaSidor);
-            tabPage2.Controls.Add(listaAvsnittMinaSidor);
-            tabPage2.Controls.Add(listaPoddarMinaSidor);
             tabPage2.Controls.Add(raderapodd);
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
@@ -215,6 +204,31 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // beskrivningsBoxMinaSidor
+            // 
+            beskrivningsBoxMinaSidor.Location = new Point(423, 21);
+            beskrivningsBoxMinaSidor.Name = "beskrivningsBoxMinaSidor";
+            beskrivningsBoxMinaSidor.Size = new Size(187, 204);
+            beskrivningsBoxMinaSidor.TabIndex = 21;
+            beskrivningsBoxMinaSidor.Text = "";
+            beskrivningsBoxMinaSidor.TextChanged += richTextBox1_TextChanged;
+            // 
+            // listaAvsnittMinaSidor
+            // 
+            listaAvsnittMinaSidor.FormattingEnabled = true;
+            listaAvsnittMinaSidor.Location = new Point(210, 21);
+            listaAvsnittMinaSidor.Name = "listaAvsnittMinaSidor";
+            listaAvsnittMinaSidor.Size = new Size(179, 204);
+            listaAvsnittMinaSidor.TabIndex = 20;
+            // 
+            // listaPodcastMinaSidor
+            // 
+            listaPodcastMinaSidor.FormattingEnabled = true;
+            listaPodcastMinaSidor.Location = new Point(6, 21);
+            listaPodcastMinaSidor.Name = "listaPodcastMinaSidor";
+            listaPodcastMinaSidor.Size = new Size(179, 204);
+            listaPodcastMinaSidor.TabIndex = 19;
             // 
             // sorteraKategorier2
             // 
@@ -233,33 +247,7 @@
             uppdateraPoddlistaMinaSidor.TabIndex = 17;
             uppdateraPoddlistaMinaSidor.Text = "uppdatPoddlista";
             uppdateraPoddlistaMinaSidor.UseVisualStyleBackColor = true;
-            // 
-            // avsnittBeskrivningMinaSidor
-            // 
-            avsnittBeskrivningMinaSidor.Location = new Point(328, 39);
-            avsnittBeskrivningMinaSidor.Name = "avsnittBeskrivningMinaSidor";
-            avsnittBeskrivningMinaSidor.Size = new Size(125, 256);
-            avsnittBeskrivningMinaSidor.TabIndex = 16;
-            avsnittBeskrivningMinaSidor.Text = "";
-            avsnittBeskrivningMinaSidor.TextChanged += avsnittBeskrivningMinaSidor_TextChanged;
-            // 
-            // listaAvsnittMinaSidor
-            // 
-            listaAvsnittMinaSidor.Location = new Point(171, 39);
-            listaAvsnittMinaSidor.Name = "listaAvsnittMinaSidor";
-            listaAvsnittMinaSidor.Size = new Size(151, 256);
-            listaAvsnittMinaSidor.TabIndex = 15;
-            listaAvsnittMinaSidor.UseCompatibleStateImageBehavior = false;
-            listaAvsnittMinaSidor.SelectedIndexChanged += listaAvsnittMinaSidor_SelectedIndexChanged;
-            // 
-            // listaPoddarMinaSidor
-            // 
-            listaPoddarMinaSidor.Location = new Point(14, 39);
-            listaPoddarMinaSidor.Name = "listaPoddarMinaSidor";
-            listaPoddarMinaSidor.Size = new Size(151, 256);
-            listaPoddarMinaSidor.TabIndex = 14;
-            listaPoddarMinaSidor.UseCompatibleStateImageBehavior = false;
-            listaPoddarMinaSidor.SelectedIndexChanged += listaPoddarMinaSidor_SelectedIndexChanged;
+            uppdateraPoddlistaMinaSidor.Click += uppdateraPoddlistaMinaSidor_Click;
             // 
             // tabPage3
             // 
@@ -322,14 +310,6 @@
             listaPoddarKategori.UseCompatibleStateImageBehavior = false;
             listaPoddarKategori.SelectedIndexChanged += listaPoddarKategori_SelectedIndexChanged;
             // 
-            // listaAvsnittBox
-            // 
-            listaAvsnittBox.FormattingEnabled = true;
-            listaAvsnittBox.Location = new Point(463, 77);
-            listaAvsnittBox.Name = "listaAvsnittBox";
-            listaAvsnittBox.Size = new Size(139, 164);
-            listaAvsnittBox.TabIndex = 15;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -347,10 +327,7 @@
         }
 
         #endregion
-
-        private ListView listaPoddar;
         private Button uppdateraPoddFlöde;
-        private ListView listaAvsnitt;
         private TextBox URL;
         private Button sparaPodd;
         private Button raderapodd;
@@ -360,9 +337,6 @@
         private TabPage tabPage2;
         private TabPage tabPage3;
         private RichTextBox avsnittBeskrivning;
-        private RichTextBox avsnittBeskrivningMinaSidor;
-        private ListView listaAvsnittMinaSidor;
-        private ListView listaPoddarMinaSidor;
         private Button uppdateraPoddlistaMinaSidor;
         private DateTimePicker senareDatum;
         private DateTimePicker tidigareDatum;
@@ -375,5 +349,8 @@
         private ComboBox redigeraKategori;
         private ComboBox raderaKategori;
         private ListBox listaAvsnittBox;
+        private RichTextBox beskrivningsBoxMinaSidor;
+        private ListBox listaAvsnittMinaSidor;
+        private ListBox listaPodcastMinaSidor;
     }
 }
