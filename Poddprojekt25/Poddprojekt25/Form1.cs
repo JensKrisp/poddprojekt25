@@ -1,10 +1,12 @@
 using Models;
 using Affärslogiklagret;
+using System.Threading.Tasks;
 
 namespace Poddprojekt25
 {
     public partial class Form1 : Form
-    { private PodcastAppService PodcastAppService;
+    {
+        private PodcastAppService PodcastAppService;
         private List<Avsnitt> allaAvsnitt;
 
         public Form1(PodcastAppService PodcastAppService)
@@ -15,18 +17,20 @@ namespace Poddprojekt25
 
         private async void visapoddFlöde_Click(object sender, EventArgs e)
         {
-            try { var Podcast = new Podcast();
-                Podcast.Id = Guid.NewGuid().ToString();
-                Podcast.URL = URL.Text;
-                allaAvsnitt = await PodcastAppService.LäsInAllaAvsnitt(Podcast);
+            try
+            {
+                var enPodcast = await PodcastAppService.LäsPodcastFrånUrl(URL.Text);
+                allaAvsnitt = await PodcastAppService.LäsInAllaAvsnitt(enPodcast);
                 listaAvsnittBox.DisplayMember = "Titel";
-                listaAvsnitt.Items.Clear();
+                listaAvsnittBox.Items.Clear();
                 foreach (Avsnitt avsnitt in allaAvsnitt)
                 {
                     listaAvsnittBox.Items.Add(avsnitt);
                 }
-                
-            }catch(Exception ex) {
+
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show("kolla, det blev fel, alltihop");
 
             }
@@ -50,7 +54,8 @@ namespace Poddprojekt25
             {
                 var enPodcast = await PodcastAppService.LäsPodcastFrånUrl(URL.Text);
                 await PodcastAppService.SparaPodcastMedAvsnitt(enPodcast);
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Något gick fel när podden skulle sparas.");
             }
@@ -67,14 +72,23 @@ namespace Poddprojekt25
             //väldigt liknande den andra listan där vi ska visa avsnitt från podd kanske blir exakt likadant
         }
 
-        private void raderapodd_Click(object sender, EventArgs e)
-        {
-            string meddelande = "vill du verkligen ta bort podden,den podd som du en gång höll så kärt?";
+        private async void raderapodd_Click(object sender, EventArgs e)
+        {  if (listaPodcastMinaSidor.SelectedItem == null) { 
+                return;
+            }
+            Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
+            string meddelande = "vill du verkligen ta bort "+valdPodd.Titel+",den podd som du en gång höll så kärt?";
             string titel = "du vet nog vad som gäller..";
             MessageBoxButtons knappar = MessageBoxButtons.YesNo;
-            MessageBox.Show(meddelande, titel, knappar);
-            // kör en metod i arbetslagret som kör igång en sån här messagebox, började skriva för det känns typ som presentation så rutan finns
-            // måste importera windows.forms för att få med messagebox :)
+            var meddelandeRuta=MessageBox.Show(meddelande, titel, knappar);
+            if (meddelandeRuta == DialogResult.Yes)
+           try{
+               await PodcastAppService.RaderaPodcast(valdPodd.Id);
+                    uppdateraPoddlistaMinaSidor_Click(sender, e);
+                }
+                catch(Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
+
+
         }
 
         private void publiceringsDatum_Click(object sender, EventArgs e)
@@ -132,6 +146,32 @@ namespace Poddprojekt25
         private void listaKategorier_SelectedIndexChanged(object sender, EventArgs e)
         {
             //funderar vi istället använder denna lista för kategorihantering, metoderna i affärslogikslagret är dock desamma
+        }
+
+        private void avsnittBeskrivning_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listaAvsnittBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void uppdateraPoddlistaMinaSidor_Click(object sender, EventArgs e)
+        {
+          var poddlista =  await PodcastAppService.HämtaAllaPodcast();
+            listaPodcastMinaSidor.DisplayMember = "Titel";
+            listaPodcastMinaSidor.Items.Clear();
+            foreach (Podcast podcast in poddlista)
+            {
+                listaPodcastMinaSidor.Items.Add(podcast);
+            }
         }
     }
 }
