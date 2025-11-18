@@ -152,7 +152,6 @@ namespace Affärslogiklagret
             
         }
 
-        // KOLLA SKILLNADEN MELLAN DE OLIKA METODERNA
         public async Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast)
         {
             var allaAvsnitt = await rssKlient.HämtaAvsnitt(enPodcast.URL);
@@ -160,23 +159,10 @@ namespace Affärslogiklagret
             foreach (var ettAvsnitt in allaAvsnitt)
             {
                 ettAvsnitt.PodcastId = enPodcast.Id;
-                ettAvsnitt.Id = null;     // låt Mongo skapa ID
+                ettAvsnitt.Id = null;     // låt Mongo skapa ID själv
             }
 
             return allaAvsnitt;
         }
-
-        //public async Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast)
-        //{
-        //    var allaAvsnitt = await rssKlient.HämtaAvsnitt(enPodcast.URL);
-
-        //    foreach (var ettAvsnitt in allaAvsnitt)
-        //    {
-        //        ettAvsnitt.PodcastId = enPodcast.Id;
-        //        ettAvsnitt.Id = enPodcast.Id + "-->" + ettAvsnitt.Id;
-        //    }
-
-        //    return allaAvsnitt;
-        //}
     }
 }
