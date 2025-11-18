@@ -6,6 +6,8 @@ namespace Dataåtkomstlagret
     public class PodcastRepository : IRepository<Podcast>
     {
         private readonly IMongoCollection<Podcast> podcastKollektion;
+        public IMongoCollection<Podcast> PodcastCollection => podcastKollektion;
+
 
         public PodcastRepository()
         {
