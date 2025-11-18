@@ -15,27 +15,35 @@ namespace Poddprojekt25
         [STAThread]
         static void Main()
         {
+            ApplicationConfiguration.Initialize();
             HttpClient http = new HttpClient();
             var klient = new RssKlient(http);
             var konfiguration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var connectionString = konfiguration.GetConnectionString("Podprojekt25");
+            var connectionString = konfiguration.GetConnectionString("PodcastDatabase");
 
             var MongoClient = new MongoClient(connectionString);
+            try { 
+                MongoClient.ListDatabaseNames();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kunde inte ansluta till databasen. Kontrollera att MongoDB är igång och att anslutningssträngen är korrekt.\nFelmeddelande: " + ex.Message, "Databasanslutningsfel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            
             // Skapa repositories
-            var podcastRepository = new PodcastRepository();
-            var avsnittRepository = new AvsnittRepository();
-
-            var service = new PodcastAppService(klient, podcastRepository, avsnittRepository, MongoClient);
+            var podcastRepository = new PodcastRepository(MongoClient);
+            var avsnittRepository = new AvsnittRepository(MongoClient);
 
            
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
+         
+            var service = new PodcastAppService(klient, podcastRepository, avsnittRepository, MongoClient);
+
             Application.Run(new Form1(service));
 
             

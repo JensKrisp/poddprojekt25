@@ -7,10 +7,9 @@ namespace Dataåtkomstlagret
     {
         private readonly IMongoCollection<Podcast> podcastKollektion;
 
-        public PodcastRepository()
+        public PodcastRepository(IMongoClient klient)
         {
-
-            var klient = new MongoClient("mongodb+srv://minnaseger_db_user:Hejsanhoppsan123!@cluster0.n1t8w3b.mongodb.net/?appName=Cluster0");
+            if (klient == null) throw new ArgumentNullException(nameof(klient));
             var databas = klient.GetDatabase("Poddprojekt25");
             podcastKollektion = databas.GetCollection<Podcast>("Podcasts");
 

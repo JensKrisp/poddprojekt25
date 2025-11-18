@@ -15,10 +15,8 @@ namespace Poddprojekt25
 
         private async void visapoddFlöde_Click(object sender, EventArgs e)
         {
-            try { var Podcast = new Podcast();
-                Podcast.Id = Guid.NewGuid().ToString();
-                Podcast.URL = URL.Text;
-                allaAvsnitt = await PodcastAppService.LäsInAllaAvsnitt(Podcast);
+            try { var enPodcast = await PodcastAppService.LäsPodcastFrånUrl(URL.Text);
+                allaAvsnitt = await PodcastAppService.LäsInAllaAvsnitt(enPodcast);
                 listaAvsnittBox.DisplayMember = "Titel";
                 listaAvsnitt.Items.Clear();
                 foreach (Avsnitt avsnitt in allaAvsnitt)
@@ -44,8 +42,13 @@ namespace Poddprojekt25
             //uppdatera avsnittslista när podd väljs behöver metod som returnerar lista efter avsnitt kopplade till poddID
         }
 
-        private void sparaPodd_Click(object sender, EventArgs e)
+        private async void sparaPodd_Click(object sender, EventArgs e)
         {
+            try
+            {
+                var enPodcast = await PodcastAppService.LäsPodcastFrånUrl(URL.Text);
+                await PodcastAppService.SparaPodcastMedAvsnitt(enPodcast);
+            }catch(Exception ex) { MessageBox.Show(ex.Message); }
             //lägg till vald podd i mina sparade poddar, beroende på hur vi tänker spara allt kan det bli att om vi sparar exakt alla poddar från rss flödet att vi lägger till en boolean eller nåt, annars spara db eller nåt
         }
 
