@@ -1,7 +1,5 @@
 ﻿//using System;
-//using System.Collections.Generic;
 //using System.Net.Http;
-//using System.Threading.Tasks;
 using System.Xml;
 //using System.Xml.Linq;
 using Models;
@@ -19,64 +17,96 @@ namespace Dataåtkomstlagret
         }
         public async Task<Podcast> HämtaPodcast(string rssUrl)
         {
-            Stream dataStröm = await enHttpKlient.GetStreamAsync(rssUrl);
-            XmlReader xmlLäsare = XmlReader.Create(dataStröm);
-            SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
-
-            xmlLäsare.Dispose();
-            dataStröm.Dispose();
-
-            Podcast podcast = new Podcast
+            try
             {
-                Titel = dataFlöde.Title?.Text ?? "Okänd titel",
-                URL = rssUrl,
-                Kategori = "", // användaren väljer kategori senare
-                Avsnitt = new List<Avsnitt>()
-            };
+                using Stream dataStröm = await enHttpKlient.GetStreamAsync(rssUrl);
+                using XmlReader xmlLäsare = XmlReader.Create(dataStröm);
+                SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
 
-            foreach (SyndicationItem item in dataFlöde.Items)
-            {
-                Avsnitt avsnitt = new Avsnitt
+                if (dataFlöde == null)
+                    throw new Exception("Kunde inte läsa RSS-flödet.");
+
+                Podcast podcast = new Podcast
                 {
-                    RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
-                    Titel = item.Title?.Text ?? "Okänd titel",
-                    Beskrivning = item.Summary?.Text ?? "",
-                    Publiceringsdatum = item.PublishDate.UtcDateTime,
+                    Titel = dataFlöde.Title?.Text ?? "Okänd titel",
+                    URL = rssUrl,
+                    Kategori = "", // användaren väljer kategori senare
+                    Avsnitt = new List<Avsnitt>()
                 };
 
+                foreach (SyndicationItem item in dataFlöde.Items)
+                {
+                    Avsnitt avsnitt = new Avsnitt
+                    {
+                        RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
+                        Titel = item.Title?.Text ?? "Okänd titel",
+                        Beskrivning = item.Summary?.Text ?? "",
+                        Publiceringsdatum = item.PublishDate.UtcDateTime,
+                    };
 
-                podcast.Avsnitt.Add(avsnitt);
+
+                    podcast.Avsnitt.Add(avsnitt);
+                }
+
+                return podcast;
             }
-
-            return podcast;
+            catch (HttpRequestException ex)
+            {
+                throw new Exception("Kunde inte kontakta servern. Kontrollera din internetanslutning eller URL", ex);
+            }
+            catch (XmlException ex)
+            {
+                throw new Exception("RSS-flödet är ogiltigt eller skadat.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ett oväntat fel inträffade när RSS-flödet hämtades.", ex);
+            }
         }
 
 
         public async Task<List<Avsnitt>> HämtaAvsnitt(string rssUrl)
         {
-            Stream dataStröm = await enHttpKlient.GetStreamAsync(rssUrl);
-            XmlReader xmlLäsare = XmlReader.Create(dataStröm);
-            SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
-
-            xmlLäsare.Dispose();
-            dataStröm.Dispose();
-
-            List<Avsnitt> avsnittsLista = new List<Avsnitt>();
-            foreach (SyndicationItem item in dataFlöde.Items)
+            try
             {
-                Avsnitt avsnitt = new Avsnitt
+                using Stream dataStröm = await enHttpKlient.GetStreamAsync(rssUrl);
+                using XmlReader xmlLäsare = XmlReader.Create(dataStröm);
+                SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
+
+                if (dataFlöde == null)
+                    throw new Exception("Kunde inte läsa RSS-flöde.");
+
+                
+                List<Avsnitt> avsnittsLista = new List<Avsnitt>();
+
+                foreach (SyndicationItem item in dataFlöde.Items)
                 {
-                    RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
-                    Titel = item.Title?.Text ?? "Okänd titel",
-                    Beskrivning = item.Summary?.Text ?? "",
-                    Publiceringsdatum = item.PublishDate.UtcDateTime,
-                };
+                    Avsnitt avsnitt = new Avsnitt
+                    {
+                        RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
+                        Titel = item.Title?.Text ?? "Okänd titel",
+                        Beskrivning = item.Summary?.Text ?? "",
+                        Publiceringsdatum = item.PublishDate.UtcDateTime,
+                    };
 
+                    avsnittsLista.Add(avsnitt);
+                }
 
-                avsnittsLista.Add(avsnitt);
+                return avsnittsLista;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception("Kunde inte hämta avsnitt från servern. Kontrollera internetanslutning eller URL.", ex);
+            }
+            catch (XmlException ex)
+            {
+                throw new Exception("RSS-flödet är skadat eller ogiltigt.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ett oväntat fel inträffade när avsnitt lästes.", ex);
             }
 
-            return avsnittsLista;
         }
     }
 }
