@@ -17,31 +17,66 @@ namespace Dataåtkomstlagret
         }
         public async Task<Podcast> HämtaMedIdAsync(string id)
         {
-            var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
-            return await podcastKollektion.Find(filter).FirstOrDefaultAsync();
+            try
+            {
+                var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
+                return await podcastKollektion.Find(filter).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Kunde inte hämta podcast från databasen.", ex);
+            }
         }
 
         public async Task<List<Podcast>> HämtaAllaAsync()
         {
-            var filter = Builders<Podcast>.Filter.Empty;
-            return await podcastKollektion.Find(filter).ToListAsync();
+            try
+            {
+                var filter = Builders<Podcast>.Filter.Empty;
+                return await podcastKollektion.Find(filter).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Kunde inte hämta podcasts från databasen.", ex);
+            }
         }
 
         public async Task LäggTillAsync(Podcast podcast)
         {
-            await podcastKollektion.InsertOneAsync(podcast);
+            try
+            {
+                await podcastKollektion.InsertOneAsync(podcast);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Kunde inte spara podcasts i databasen.", ex);
+            }
         }
 
         public async Task UppdateraAsync(Podcast uppdateradPodcast, IClientSessionHandle session)
         {
-            var filter= Builders<Podcast>.Filter.Eq(p => p.Id, uppdateradPodcast.Id);
-            var updateResult= await podcastKollektion.ReplaceOneAsync(session, filter, uppdateradPodcast);
+            try
+            {
+                var filter = Builders<Podcast>.Filter.Eq(p => p.Id, uppdateradPodcast.Id);
+                var updateResult = await podcastKollektion.ReplaceOneAsync(session, filter, uppdateradPodcast);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Kunde inte uppdatera podcast i databasen.", ex);
+            }
         }
 
         public async Task TaBortAsync(string id)
         {
-            var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
-            await podcastKollektion.DeleteOneAsync(filter);
-        } 
+            try
+            {
+                var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
+                await podcastKollektion.DeleteOneAsync(filter);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Kunde inte radera podcast från databasen.", ex);
+            }
+        }
     }
 }
