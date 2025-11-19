@@ -1,5 +1,6 @@
 ﻿using Dataåtkomstlagret;
 using Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,13 @@ namespace Affärslogiklagret
     {
         private readonly AvsnittRepository avsnittRepo;
         private readonly RssKlient rssKlient;
+        private readonly IMongoClient mongoKlient;
 
-        public AvsnittService(AvsnittRepository avsnittRepo, RssKlient rssKlient)
+        public AvsnittService(AvsnittRepository avsnittRepo, RssKlient rssKlient, IMongoClient mongoKlient)
         {
             this.avsnittRepo = avsnittRepo;
             this.rssKlient = rssKlient;
+            this.mongoKlient = mongoKlient;
         }
 
         // Hämta avsnitt för en podcast 
