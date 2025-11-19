@@ -93,8 +93,36 @@ namespace Poddprojekt25
 
         private void publiceringsDatum_Click(object sender, EventArgs e)
         {
-            DateTime datum1 = tidigareDatum.Value.Date;
-            DateTime datum2 = senareDatum.Value.Date;
+            try
+            {
+                DateTime datum1 = tidigareDatum.Value.Date;
+                DateTime datum2 = senareDatum.Value.Date;
+                if (datum1 > datum2)
+                {
+                    MessageBox.Show("Det första datumet måste vara tidigare än det andra.");
+                    return;
+                }
+                if (allaAvsnitt == null || allaAvsnitt.Count == 0)
+                {
+                    MessageBox.Show("Inga avsnitt att filtrera.");
+                    return;
+                }
+                var filtrerade = PodcastAppService
+                    .FiltreraAvsnittEfterDatum(allaAvsnitt, datum1, datum2);
+                listaAvsnittBox.Items.Clear();
+                foreach (var a in filtrerade)
+                {
+                    listaAvsnittBox.Items.Add(a);
+                }
+                if (filtrerade.Count == 0)
+                {
+                    MessageBox.Show("Inga avsnitt hittades mellan datumen.");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Det gick inte att filtrera avsnitten.");
+            }
             //en metod i arbetslagret som tar jämför dessa två datum och uppdaterar avsnittslistan
         }
 
