@@ -29,17 +29,24 @@ namespace Affärslogiklagret
             return alla.Where(a => a.PodcastId == podcastId).ToList();
         }
 
+        // Läs in alla avsnitt från RSS-flöde för en podcast
         public async Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast)
         {
-            var allaAvsnitt = await rssKlient.HämtaAvsnitt(enPodcast.URL);
-
-            foreach (var ettAvsnitt in allaAvsnitt)
+            try
             {
-                ettAvsnitt.PodcastId = enPodcast.Id;
-                ettAvsnitt.Id = null;     // låt Mongo skapa ID själv
+                var allaAvsnitt = await rssKlient.HämtaAvsnitt(enPodcast.URL);
+                foreach (var ettAvsnitt in allaAvsnitt)
+                {
+                    ettAvsnitt.PodcastId = enPodcast.Id;
+                    ettAvsnitt.Id = null; 
+                }
+                return allaAvsnitt;
             }
-
-            return allaAvsnitt;
+            catch (Exception ex)
+            {
+                throw new Exception($"Kunde inte läsa in avsnitt från podcast: {enPodcast.Titel}, URL: {enPodcast.URL}", ex);
+            }
         }
+
     }
 }
