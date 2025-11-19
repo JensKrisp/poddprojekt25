@@ -48,11 +48,16 @@
             sorteraKategorier2 = new ComboBox();
             uppdateraPoddlistaMinaSidor = new Button();
             tabPage3 = new TabPage();
-            raderaKategori = new ComboBox();
-            redigeraKategori = new ComboBox();
+            skapaKategoriText = new TextBox();
             visaKategorier = new Button();
             listaKategorier = new ListView();
             listaPoddarKategori = new ListView();
+            redigeraKategori = new TextBox();
+            redigeraKategoriKnapp = new Button();
+            comboBox1 = new ComboBox();
+            comboBox2 = new ComboBox();
+            button1 = new Button();
+            button2 = new Button();
             poddTabbar.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -100,7 +105,7 @@
             // 
             // skapanyKategori
             // 
-            skapanyKategori.Location = new Point(358, 18);
+            skapanyKategori.Location = new Point(659, 47);
             skapanyKategori.Name = "skapanyKategori";
             skapanyKategori.Size = new Size(94, 29);
             skapanyKategori.TabIndex = 10;
@@ -187,7 +192,6 @@
             avsnittBeskrivning.Size = new Size(250, 219);
             avsnittBeskrivning.TabIndex = 10;
             avsnittBeskrivning.Text = "";
-           
             // 
             // tabPage2
             // 
@@ -253,8 +257,13 @@
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(raderaKategori);
+            tabPage3.Controls.Add(button2);
+            tabPage3.Controls.Add(button1);
+            tabPage3.Controls.Add(comboBox2);
+            tabPage3.Controls.Add(comboBox1);
+            tabPage3.Controls.Add(redigeraKategoriKnapp);
             tabPage3.Controls.Add(redigeraKategori);
+            tabPage3.Controls.Add(skapaKategoriText);
             tabPage3.Controls.Add(visaKategorier);
             tabPage3.Controls.Add(listaKategorier);
             tabPage3.Controls.Add(listaPoddarKategori);
@@ -266,27 +275,18 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "tabPage3";
             tabPage3.UseVisualStyleBackColor = true;
+            tabPage3.Click += tabPage3_Click;
             // 
-            // raderaKategori
+            // skapaKategoriText
             // 
-            raderaKategori.FormattingEnabled = true;
-            raderaKategori.Location = new Point(347, 123);
-            raderaKategori.Name = "raderaKategori";
-            raderaKategori.Size = new Size(151, 28);
-            raderaKategori.TabIndex = 17;
-            raderaKategori.SelectedIndexChanged += raderaKategori_SelectedIndexChanged;
-            // 
-            // redigeraKategori
-            // 
-            redigeraKategori.FormattingEnabled = true;
-            redigeraKategori.Location = new Point(520, 123);
-            redigeraKategori.Name = "redigeraKategori";
-            redigeraKategori.Size = new Size(151, 28);
-            redigeraKategori.TabIndex = 16;
+            skapaKategoriText.Location = new Point(659, 18);
+            skapaKategoriText.Name = "skapaKategoriText";
+            skapaKategoriText.Size = new Size(125, 27);
+            skapaKategoriText.TabIndex = 18;
             // 
             // visaKategorier
             // 
-            visaKategorier.Location = new Point(333, 326);
+            visaKategorier.Location = new Point(659, 326);
             visaKategorier.Name = "visaKategorier";
             visaKategorier.Size = new Size(94, 29);
             visaKategorier.TabIndex = 15;
@@ -296,7 +296,7 @@
             // 
             // listaKategorier
             // 
-            listaKategorier.Location = new Point(184, 18);
+            listaKategorier.Location = new Point(510, 18);
             listaKategorier.Name = "listaKategorier";
             listaKategorier.Size = new Size(143, 337);
             listaKategorier.TabIndex = 14;
@@ -312,6 +312,56 @@
             listaPoddarKategori.UseCompatibleStateImageBehavior = false;
             listaPoddarKategori.SelectedIndexChanged += listaPoddarKategori_SelectedIndexChanged;
             // 
+            // redigeraKategori
+            // 
+            redigeraKategori.Location = new Point(659, 82);
+            redigeraKategori.Name = "redigeraKategori";
+            redigeraKategori.Size = new Size(125, 27);
+            redigeraKategori.TabIndex = 19;
+            // 
+            // redigeraKategoriKnapp
+            // 
+            redigeraKategoriKnapp.Location = new Point(659, 115);
+            redigeraKategoriKnapp.Name = "redigeraKategoriKnapp";
+            redigeraKategoriKnapp.Size = new Size(94, 29);
+            redigeraKategoriKnapp.TabIndex = 20;
+            redigeraKategoriKnapp.Text = "button1";
+            redigeraKategoriKnapp.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(167, 18);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(151, 28);
+            comboBox1.TabIndex = 21;
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(167, 116);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(151, 28);
+            comboBox2.TabIndex = 22;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(167, 52);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 23;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(167, 150);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 24;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -325,6 +375,7 @@
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -348,11 +399,16 @@
         private Button visaKategorier;
         private ListView listaKategorier;
         private ListView listaPoddarKategori;
-        private ComboBox redigeraKategori;
-        private ComboBox raderaKategori;
         private ListBox listaAvsnittBox;
         private RichTextBox beskrivningsBoxMinaSidor;
         private ListBox listaAvsnittMinaSidor;
         private ListBox listaPodcastMinaSidor;
+        private TextBox skapaKategoriText;
+        private TextBox redigeraKategori;
+        private ComboBox comboBox1;
+        private Button redigeraKategoriKnapp;
+        private ComboBox comboBox2;
+        private Button button2;
+        private Button button1;
     }
 }

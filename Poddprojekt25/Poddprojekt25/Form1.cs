@@ -8,12 +8,14 @@ namespace Poddprojekt25
     {
         private IPodcastService PodcastService;
         private IAvsnittService AvsnittService;
+        private IKategoriService KategoriService;
 
 
-        public Form1(IPodcastService PodcastService, IAvsnittService AvsnittService)
+        public Form1(IPodcastService PodcastService, IAvsnittService AvsnittService, IKategoriService KategoriService)
         {
             this.PodcastService = PodcastService;
             this.AvsnittService = AvsnittService;
+            this.KategoriService = KategoriService;
             InitializeComponent();
         }
 
@@ -34,7 +36,7 @@ namespace Poddprojekt25
             }
             catch (Exception ex)
             {
-                MessageBox.Show("kolla, det blev fel, alltihop"+ex.Message);
+                MessageBox.Show("kolla, det blev fel, alltihop" + ex.Message);
 
             }
             //metod som returnerar en lista poddar baserad på rss flödet, överför till poddlistan
@@ -60,14 +62,14 @@ namespace Poddprojekt25
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Något gick fel när podden skulle sparas." + ex.Message);
+                MessageBox.Show("Något gick fel när podden skulle sparas. " + ex.Message);
             }
             //lägg till vald podd i mina sparade poddar, beroende på hur vi tänker spara allt kan det bli att om vi sparar exakt alla poddar från rss flödet att vi lägger till en boolean eller nåt, annars spara db eller nåt
         }
 
         private void listaAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void listaPoddarMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
@@ -116,6 +118,12 @@ namespace Poddprojekt25
 
         private void skapanyKategori_Click(object sender, EventArgs e)
         {
+            if (skapaKategoriText.Text == "")
+            {
+                MessageBox.Show("Skriv något i rutan ovanför för att skapa kategori");
+                return;
+            }
+
             //kanske en ny messagebox? iallafall en metod som tar emot en string och lägger till som tillgänglig kategori, vi kommer nog behöva spara kategorier som sin egen grej.... 
         }
 
@@ -157,7 +165,7 @@ namespace Poddprojekt25
             //funderar vi istället använder denna lista för kategorihantering, metoderna i affärslogikslagret är dock desamma
         }
 
-        
+
 
         private void listaAvsnittBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -194,9 +202,13 @@ namespace Poddprojekt25
                 {
                     listaAvsnittMinaSidor.Items.Add(avsnitt);
                 }
-            }catch(Exception ex) { MessageBox.Show(ex.Message); }
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
-     
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

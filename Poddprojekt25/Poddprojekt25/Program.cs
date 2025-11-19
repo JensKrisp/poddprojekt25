@@ -29,15 +29,16 @@ namespace Poddprojekt25
             // Skapa repositories
             var podcastRepository = new PodcastRepository();
             var avsnittRepository = new AvsnittRepository();
+            var kategoriRepository = new KategoriRepository();
 
             var PodcastService = new PodcastService(klient, podcastRepository, avsnittRepository, MongoClient);
             var AvsnittService = new AvsnittService(avsnittRepository,klient,MongoClient);
-
+            var KategoriService = new KategoriService(klient, kategoriRepository, podcastRepository, MongoClient);
 
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1(PodcastService,AvsnittService));
+            Application.Run(new Form1(PodcastService,AvsnittService,KategoriService));
 
             
         }
