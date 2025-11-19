@@ -187,7 +187,7 @@
             avsnittBeskrivning.Size = new Size(250, 219);
             avsnittBeskrivning.TabIndex = 10;
             avsnittBeskrivning.Text = "";
-            avsnittBeskrivning.TextChanged += avsnittBeskrivning_TextChanged;
+           
             // 
             // tabPage2
             // 
@@ -221,6 +221,7 @@
             listaAvsnittMinaSidor.Name = "listaAvsnittMinaSidor";
             listaAvsnittMinaSidor.Size = new Size(179, 204);
             listaAvsnittMinaSidor.TabIndex = 20;
+            listaAvsnittMinaSidor.SelectedIndexChanged += listaAvsnittMinaSidor_SelectedIndexChanged;
             // 
             // listaPodcastMinaSidor
             // 
@@ -229,6 +230,7 @@
             listaPodcastMinaSidor.Name = "listaPodcastMinaSidor";
             listaPodcastMinaSidor.Size = new Size(179, 204);
             listaPodcastMinaSidor.TabIndex = 19;
+            listaPodcastMinaSidor.SelectedIndexChanged += listaPodcastMinaSidor_SelectedIndexChanged;
             // 
             // sorteraKategorier2
             // 

@@ -6,12 +6,14 @@ namespace Poddprojekt25
 {
     public partial class Form1 : Form
     {
-        private PodcastAppService PodcastAppService;
-        private List<Avsnitt> allaAvsnitt;
+        private IPodcastService PodcastService;
+        private IAvsnittService AvsnittService;
 
-        public Form1(PodcastAppService PodcastAppService)
+
+        public Form1(IPodcastService PodcastService, IAvsnittService AvsnittService)
         {
-            this.PodcastAppService = PodcastAppService;
+            this.PodcastService = PodcastService;
+            this.AvsnittService = AvsnittService;
             InitializeComponent();
         }
 
@@ -19,8 +21,9 @@ namespace Poddprojekt25
         {
             try
             {
-                var enPodcast = await PodcastAppService.LäsPodcastFrånUrl(URL.Text);
-                allaAvsnitt = await PodcastAppService.LäsInAllaAvsnitt(enPodcast);
+                List<Avsnitt> allaAvsnitt;
+                var enPodcast = await PodcastService.LäsPodcastFrånUrl(URL.Text);
+                allaAvsnitt = await AvsnittService.LäsInAllaAvsnitt(enPodcast);
                 listaAvsnittBox.DisplayMember = "Titel";
                 listaAvsnittBox.Items.Clear();
                 foreach (Avsnitt avsnitt in allaAvsnitt)
@@ -31,7 +34,7 @@ namespace Poddprojekt25
             }
             catch (Exception ex)
             {
-                MessageBox.Show("kolla, det blev fel, alltihop");
+                MessageBox.Show("kolla, det blev fel, alltihop"+ex.Message);
 
             }
             //metod som returnerar en lista poddar baserad på rss flödet, överför till poddlistan
@@ -52,19 +55,19 @@ namespace Poddprojekt25
         {
             try
             {
-                var enPodcast = await PodcastAppService.LäsPodcastFrånUrl(URL.Text);
-                await PodcastAppService.SparaPodcastMedAvsnitt(enPodcast);
+                var enPodcast = await PodcastService.LäsPodcastFrånUrl(URL.Text);
+                await PodcastService.SparaPodcastMedAvsnitt(enPodcast);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Något gick fel när podden skulle sparas.");
+                MessageBox.Show("Något gick fel när podden skulle sparas." + ex.Message);
             }
             //lägg till vald podd i mina sparade poddar, beroende på hur vi tänker spara allt kan det bli att om vi sparar exakt alla poddar från rss flödet att vi lägger till en boolean eller nåt, annars spara db eller nåt
         }
 
         private void listaAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //kräver metod som returnerar beskrivning baserat på avsnittsID alternativt poddID och sen GUID beroende på hur det blir
+           
         }
 
         private void listaPoddarMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
@@ -73,56 +76,31 @@ namespace Poddprojekt25
         }
 
         private async void raderapodd_Click(object sender, EventArgs e)
-        {  if (listaPodcastMinaSidor.SelectedItem == null) { 
+        {
+            if (listaPodcastMinaSidor.SelectedItem == null)
+            {
                 return;
             }
             Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
-            string meddelande = "vill du verkligen ta bort "+valdPodd.Titel+",den podd som du en gång höll så kärt?";
+            string meddelande = "vill du verkligen ta bort " + valdPodd.Titel + ",den podd som du en gång höll så kärt?";
             string titel = "du vet nog vad som gäller..";
             MessageBoxButtons knappar = MessageBoxButtons.YesNo;
-            var meddelandeRuta=MessageBox.Show(meddelande, titel, knappar);
+            var meddelandeRuta = MessageBox.Show(meddelande, titel, knappar);
             if (meddelandeRuta == DialogResult.Yes)
-           try{
-               await PodcastAppService.RaderaPodcast(valdPodd.Id);
+                try
+                {
+                    await PodcastService.RaderaPodcast(valdPodd.Id);
                     uppdateraPoddlistaMinaSidor_Click(sender, e);
                 }
-                catch(Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
 
 
         }
 
         private void publiceringsDatum_Click(object sender, EventArgs e)
         {
-            try
-            {
-                DateTime datum1 = tidigareDatum.Value.Date;
-                DateTime datum2 = senareDatum.Value.Date;
-                if (datum1 > datum2)
-                {
-                    MessageBox.Show("Det första datumet måste vara tidigare än det andra.");
-                    return;
-                }
-                if (allaAvsnitt == null || allaAvsnitt.Count == 0)
-                {
-                    MessageBox.Show("Inga avsnitt att filtrera.");
-                    return;
-                }
-                var filtrerade = PodcastAppService
-                    .FiltreraAvsnittEfterDatum(allaAvsnitt, datum1, datum2);
-                listaAvsnittBox.Items.Clear();
-                foreach (var a in filtrerade)
-                {
-                    listaAvsnittBox.Items.Add(a);
-                }
-                if (filtrerade.Count == 0)
-                {
-                    MessageBox.Show("Inga avsnitt hittades mellan datumen.");
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Det gick inte att filtrera avsnitten.");
-            }
+            DateTime datum1 = tidigareDatum.Value.Date;
+            DateTime datum2 = senareDatum.Value.Date;
             //en metod i arbetslagret som tar jämför dessa två datum och uppdaterar avsnittslistan
         }
 
@@ -158,6 +136,9 @@ namespace Poddprojekt25
 
         private void listaAvsnittMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var valtAvsnitt = (Avsnitt)listaAvsnittMinaSidor.SelectedItem;
+            avsnittBeskrivning.Clear();
+            avsnittBeskrivning.AppendText(" du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
             //metod som tar emot avsnittsID eller nåt sånt och returnerar string med beskrivning
         }
 
@@ -176,14 +157,13 @@ namespace Poddprojekt25
             //funderar vi istället använder denna lista för kategorihantering, metoderna i affärslogikslagret är dock desamma
         }
 
-        private void avsnittBeskrivning_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void listaAvsnittBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            var valtAvsnitt = (Avsnitt)listaAvsnittBox.SelectedItem;
+            avsnittBeskrivning.Clear();
+            avsnittBeskrivning.AppendText(" du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
@@ -193,7 +173,7 @@ namespace Poddprojekt25
 
         private async void uppdateraPoddlistaMinaSidor_Click(object sender, EventArgs e)
         {
-          var poddlista =  await PodcastAppService.HämtaAllaPodcast();
+            var poddlista = await PodcastService.HämtaAllaPodcast();
             listaPodcastMinaSidor.DisplayMember = "Titel";
             listaPodcastMinaSidor.Items.Clear();
             foreach (Podcast podcast in poddlista)
@@ -201,5 +181,22 @@ namespace Poddprojekt25
                 listaPodcastMinaSidor.Items.Add(podcast);
             }
         }
+
+        private async void listaPodcastMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
+                var avsnittLista = await AvsnittService.HämtaAvsnittFörPodcast(valdPodd.Id);
+                listaAvsnittMinaSidor.DisplayMember = "Titel";
+                listaAvsnittMinaSidor.Items.Clear();
+                foreach (Avsnitt avsnitt in avsnittLista)
+                {
+                    listaAvsnittMinaSidor.Items.Add(avsnitt);
+                }
+            }catch(Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+     
     }
 }
