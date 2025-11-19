@@ -39,12 +39,12 @@ namespace Affärslogiklagret
             try
             {
                 //Validering om podd redan finns sparad
-                var filter = Builders<Podcast>.Filter.Eq(P => P.Titel, podcast.Titel);
+                var filter = Builders<Podcast>.Filter.Eq(P => P.URL, podcast.URL);
                 var befintligPodcast = await podcastRepo.PodcastCollection.Find(filter).FirstOrDefaultAsync();
 
                 if (befintligPodcast != null)
                 {
-                    throw new InvalidOperationException("Podcasten finns redan sparad i databasen.");
+                    throw new InvalidOperationException(" Podcasten finns redan sparad i databasen.");
                 }
 
                 await podcastRepo.LäggTillAsync(podcast);
