@@ -111,18 +111,28 @@ namespace Poddprojekt25
             //behöver en metod som tar emot en kategori och uppdaterar poddlistan med denna
         }
 
-        private void visaKategorier_Click(object sender, EventArgs e)
+        private async void visaKategorier_Click(object sender, EventArgs e)
         {
+            var kategoriLista = await KategoriService.HämtaAllaKategorierAsync();
+            listaKategorier.DisplayMember = "Namn";
+            listaKategorier.Items.Clear();
+            foreach (Kategori kategori in kategoriLista)
+            {
+                listaKategorier.Items.Add(kategori);
+            }
             //metod som uppdaterar listaKategorier med alla kategorier som finns, behöver inte nödvändigtvis sitta på en sån här knapp
         }
 
-        private void skapanyKategori_Click(object sender, EventArgs e)
+        private async void skapanyKategori_Click(object sender, EventArgs e)
         {
-            if (skapaKategoriText.Text == "")
+            String nyKategori = skapaKategoriText.Text;
+            if (nyKategori == "")
             {
                 MessageBox.Show("Skriv något i rutan ovanför för att skapa kategori");
                 return;
             }
+            try { await KategoriService.SkapaKategoriAsync(nyKategori); }
+            catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle skapas. " + ex.Message); }
 
             //kanske en ny messagebox? iallafall en metod som tar emot en string och lägger till som tillgänglig kategori, vi kommer nog behöva spara kategorier som sin egen grej.... 
         }
@@ -182,11 +192,18 @@ namespace Poddprojekt25
         private async void uppdateraPoddlistaMinaSidor_Click(object sender, EventArgs e)
         {
             var poddlista = await PodcastService.HämtaAllaPodcast();
+            var kategoriLista = await KategoriService.HämtaAllaKategorierAsync();
             listaPodcastMinaSidor.DisplayMember = "Titel";
             listaPodcastMinaSidor.Items.Clear();
+            sorteraKategorierMinaSidor.DisplayMember = "Namn";
+            sorteraKategorierMinaSidor.Items.Clear();
             foreach (Podcast podcast in poddlista)
             {
                 listaPodcastMinaSidor.Items.Add(podcast);
+            }
+            foreach (Kategori kategori in kategoriLista)
+            {
+                sorteraKategorierMinaSidor.Items.Add(kategori);
             }
         }
 
@@ -208,6 +225,50 @@ namespace Poddprojekt25
 
         private void tabPage3_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private async void bytNamnKnapp_Click(object sender, EventArgs e)
+        {
+            Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
+            String nyttNamn = nyttNamnRuta.Text;
+            if (nyttNamn == "")
+            {
+                return;
+            }
+            try
+            {
+                await PodcastService.UppdateraPodcastTitel(valdPodd.Id, nyttNamn);
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+        private void redigeraKategoriKnapp_Click(object sender, EventArgs e)
+        {
+            String nyttKategoriNamn = redigeraKategori.Text;
+            Kategori valdKategori = (Kategori)listaKategorier.SelectedItem;
+            if (string.IsNullOrWhiteSpace(nyttKategoriNamn) || valdKategori == null)
+            {
+                return;
+            }
+            try { KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn); }
+            catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle ändras. " + ex.Message); }
+        }
+
+        private async void VisaPodcastKategori_Click(object sender, EventArgs e)
+        {
+            var poddlista = await PodcastService.HämtaAllaPodcast();
+            listaPodcastKategori.DisplayMember = "Titel";
+            listaPodcastKategori.Items.Clear();
+            foreach (Podcast podcast in poddlista)
+            {
+                listaPodcastKategori.Items.Add(podcast);
+            }
+        }
+
+        private void listaPodcastKategori_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           Podcast valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
 
         }
     }
