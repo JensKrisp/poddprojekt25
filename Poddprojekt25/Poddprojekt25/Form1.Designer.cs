@@ -61,6 +61,7 @@
             redigeraKategori = new TextBox();
             skapaKategoriText = new TextBox();
             visaKategorier = new Button();
+            taBortKategori = new Button();
             poddTabbar.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -279,6 +280,7 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(taBortKategori);
             tabPage3.Controls.Add(VisaPodcastKategori);
             tabPage3.Controls.Add(listaPodcastKategori);
             tabPage3.Controls.Add(listaKategorier);
@@ -395,6 +397,16 @@
             visaKategorier.UseVisualStyleBackColor = true;
             visaKategorier.Click += visaKategorier_Click;
             // 
+            // taBortKategori
+            // 
+            taBortKategori.Location = new Point(659, 194);
+            taBortKategori.Name = "taBortKategori";
+            taBortKategori.Size = new Size(94, 29);
+            taBortKategori.TabIndex = 28;
+            taBortKategori.Text = "ta bort";
+            taBortKategori.UseVisualStyleBackColor = true;
+            taBortKategori.Click += taBortKategori_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -447,5 +459,6 @@
         private ListBox listaPodcastKategori;
         private ListBox listaKategorier;
         private Button VisaPodcastKategori;
+        private Button taBortKategori;
     }
 }

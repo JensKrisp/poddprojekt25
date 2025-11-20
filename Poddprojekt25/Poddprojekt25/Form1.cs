@@ -23,9 +23,9 @@ namespace Poddprojekt25
         {
             try
             {
-                List<Avsnitt> allaAvsnitt;
+
                 var enPodcast = await PodcastService.LäsPodcastFrånUrl(URL.Text);
-                allaAvsnitt = await AvsnittService.LäsInAllaAvsnitt(enPodcast);
+                List<Avsnitt> allaAvsnitt = await AvsnittService.LäsInAllaAvsnitt(enPodcast);
                 listaAvsnittBox.DisplayMember = "Titel";
                 listaAvsnittBox.Items.Clear();
                 foreach (Avsnitt avsnitt in allaAvsnitt)
@@ -131,7 +131,11 @@ namespace Poddprojekt25
                 MessageBox.Show("Skriv något i rutan ovanför för att skapa kategori");
                 return;
             }
-            try { await KategoriService.SkapaKategoriAsync(nyKategori); }
+            try
+            {
+                await KategoriService.SkapaKategoriAsync(nyKategori);
+                visaKategorier_Click(sender, e);
+            }
             catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle skapas. " + ex.Message); }
 
             //kanske en ny messagebox? iallafall en metod som tar emot en string och lägger till som tillgänglig kategori, vi kommer nog behöva spara kategorier som sin egen grej.... 
@@ -165,8 +169,16 @@ namespace Poddprojekt25
 
         }
 
-        private void sorteraKategorier2_SelectedIndexChanged(object sender, EventArgs e)
+        private async void sorteraKategorier2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var valdKategori = (Kategori)sorteraKategorierMinaSidor.SelectedItem;
+            List<Podcast> podcastsFörKategori = await KategoriService.HämtaPodcastsFörKategoriAsync(valdKategori.Id);
+            listaPodcastMinaSidor.Items.Clear();
+            listaPodcastMinaSidor.DisplayMember = "Titel";
+            foreach (Podcast podcast in podcastsFörKategori)
+            {
+                listaPodcastMinaSidor.Items.Add(podcast);
+            }
             //metod som tar emot en kategori och uppdaterar poddlistan i mina sparade poddar
         }
 
@@ -251,7 +263,12 @@ namespace Poddprojekt25
             {
                 return;
             }
-            try { KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn); }
+            try
+            {
+                KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn);
+                visaKategorier_Click(sender, e);
+
+            }
             catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle ändras. " + ex.Message); }
         }
 
@@ -268,7 +285,25 @@ namespace Poddprojekt25
 
         private void listaPodcastKategori_SelectedIndexChanged(object sender, EventArgs e)
         {
-           Podcast valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
+            Podcast valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
+
+        }
+
+        private async void taBortKategori_Click(object sender, EventArgs e)
+        {
+            var valdKategori=(Kategori)listaKategorier.SelectedItem;
+            string meddelande = "vill du verkligen ta bort " + valdKategori.Namn + ",kategorin som en gång innehöll alla dina favoritpoddar?";
+            string titel = "du vet nog vad som gäller..";
+            MessageBoxButtons knappar = MessageBoxButtons.YesNo;
+            var meddelandeRuta = MessageBox.Show(meddelande, titel, knappar);
+            if (meddelandeRuta == DialogResult.Yes)
+                try
+                {
+                    await KategoriService.RaderaKategoriAsync(valdKategori.Id);
+                    visaKategorier_Click(sender, e);
+                    MessageBox.Show("Kategorin har tagits bort.");
+                }
+                catch (Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
 
         }
     }
