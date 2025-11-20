@@ -23,8 +23,7 @@ namespace Dataåtkomstlagret
                 using XmlReader xmlLäsare = XmlReader.Create(dataStröm);
                 SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
 
-                if (dataFlöde == null)
-                    throw new Exception("Kunde inte läsa RSS-flödet.");
+   
 
                 Podcast podcast = new Podcast
                 {
@@ -52,15 +51,15 @@ namespace Dataåtkomstlagret
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception("Kunde inte kontakta servern. Kontrollera din internetanslutning eller URL", ex);
+                throw new Exception(". Kunde inte kontakta servern. Kontrollera din internetanslutning eller URL", ex);
             }
             catch (XmlException ex)
             {
-                throw new Exception("RSS-flödet är ogiltigt eller skadat.", ex);
+                throw new Exception(". RSS-flödet är ogiltigt eller skadat.", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Ett oväntat fel inträffade när RSS-flödet hämtades.", ex);
+                throw new Exception(". Kunde inte hämta podcast eftersom URL inte kunde läsas.", ex);
             }
         }
 
@@ -72,9 +71,6 @@ namespace Dataåtkomstlagret
                 using Stream dataStröm = await enHttpKlient.GetStreamAsync(rssUrl);
                 using XmlReader xmlLäsare = XmlReader.Create(dataStröm);
                 SyndicationFeed dataFlöde = SyndicationFeed.Load(xmlLäsare);
-
-                if (dataFlöde == null)
-                    throw new Exception("Kunde inte läsa RSS-flöde.");
 
                 
                 List<Avsnitt> avsnittsLista = new List<Avsnitt>();
@@ -96,15 +92,15 @@ namespace Dataåtkomstlagret
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception("Kunde inte hämta avsnitt från servern. Kontrollera internetanslutning eller URL.", ex);
+                throw new Exception(". Kunde inte hämta avsnitt från servern. Kontrollera internetanslutning eller URL.", ex);
             }
             catch (XmlException ex)
             {
-                throw new Exception("RSS-flödet är skadat eller ogiltigt.", ex);
+                throw new Exception(". RSS-flödet är skadat eller ogiltigt.", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Ett oväntat fel inträffade när avsnitt lästes.", ex);
+                throw new Exception(". Kunde inte hämta avsnitt eftersom URL inte kunde läsas.", ex);
             }
 
         }
