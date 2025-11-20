@@ -3,6 +3,7 @@ using Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,27 @@ namespace Affärslogiklagret
             return alla.Where(a => a.PodcastId == podcastId).ToList();
         }
 
+        // Filtrera avsnitt mellan två datum
+        public async Task<List<Avsnitt>> HämtaAvsnittMellanDatum(DateTime datum1, DateTime datum2)
+        {
+            var alla = await avsnittRepo.HämtaAllaAsync();
+
+            // Se till att datum1 är det tidigare
+            if (datum1 > datum2)
+            {
+                (datum1, datum2) = (datum2, datum1);
+            }
+
+            return alla
+              .Where(a =>
+                  a.Publiceringsdatum.HasValue &&         
+                  a.Publiceringsdatum.Value.Date >= datum1.Date &&
+                  a.Publiceringsdatum.Value.Date <= datum2.Date
+              )
+              .ToList();
+        }
+
+
         // Läs in alla avsnitt från RSS-flöde för en podcast
         public async Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast)
         {
@@ -47,6 +69,7 @@ namespace Affärslogiklagret
                 throw new Exception($"Kunde inte läsa in avsnitt från podcast: {enPodcast.Titel}, URL: {enPodcast.URL}", ex);
             }
         }
+
 
     }
 }

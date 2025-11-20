@@ -160,28 +160,8 @@ namespace Affärslogiklagret
                 await session.AbortTransactionAsync();
                 throw;
             }
-            
-        }
-        public List<Avsnitt> FiltreraAvsnittEfterDatum(
-     List<Avsnitt> avsnitt, DateTime från, DateTime till)
-        {
-            return avsnitt
-                .Where(a => a.Publiceringsdatum.HasValue &&
-                            a.Publiceringsdatum.Value.Date >= från.Date &&
-                            a.Publiceringsdatum.Value.Date <= till.Date)
-                .ToList();
-        }
-        public async Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast)
-        {
-            var allaAvsnitt = await rssKlient.HämtaAvsnitt(enPodcast.URL);
 
-            foreach (var ettAvsnitt in allaAvsnitt)
-            {
-                ettAvsnitt.PodcastId = enPodcast.Id;
-                ettAvsnitt.Id = null;     // låt Mongo skapa ID själv
-            }
 
-            return allaAvsnitt;
         }
     }
 }
