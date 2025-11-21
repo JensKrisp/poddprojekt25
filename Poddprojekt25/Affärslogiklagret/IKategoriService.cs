@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Affärslogiklagret
 {
-    public interface IKategoriService
+    public interface IKategoriService : IService<Kategori>
     {
         Task<List<Kategori>> HämtaAllaKategorierAsync();
         Task<Kategori> SkapaKategoriAsync(string namn);

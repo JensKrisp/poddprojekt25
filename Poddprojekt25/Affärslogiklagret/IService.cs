@@ -1,14 +1,13 @@
-﻿using Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dataåtkomstlagret
+namespace Affärslogiklagret
 {
-    public interface IAvsnittRepository
+    public interface IService<T> where T : class
     {
-        
+
     }
 }

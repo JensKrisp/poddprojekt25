@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Affärslogiklagret
 {
-    public interface IPodcastService
+    public interface IPodcastService : IService<Podcast>
     {
         Task<Podcast> LäsPodcastFrånUrl(string url);
 
