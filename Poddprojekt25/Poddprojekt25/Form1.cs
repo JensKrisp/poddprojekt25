@@ -37,7 +37,7 @@ namespace Poddprojekt25
             }
             catch (Exception ex)
             {
-                MessageBox.Show("kolla, det blev fel, alltihop" + ex.Message);
+                MessageBox.Show("Kolla, det blev fel, alltihop" + ex.Message);
 
             }
             //metod som returnerar en lista poddar baserad på rss flödet, överför till poddlistan
@@ -60,11 +60,11 @@ namespace Poddprojekt25
             {
                 var enPodcast = await PodcastService.LäsPodcastFrånUrl(URL.Text);
                 await PodcastService.SparaPodcastMedAvsnitt(enPodcast);
-                MessageBox.Show("Podden har sparats :)");
+                MessageBox.Show("Podcasten har sparats :)");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Något gick fel när podden skulle sparas. " + ex.Message);
+                MessageBox.Show("Något gick fel när podcasten skulle sparas. " + ex.Message);
             }
             //lägg till vald podd i mina sparade poddar, beroende på hur vi tänker spara allt kan det bli att om vi sparar exakt alla poddar från rss flödet att vi lägger till en boolean eller nåt, annars spara db eller nåt
         }
@@ -86,8 +86,8 @@ namespace Poddprojekt25
                 return;
             }
             Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
-            string meddelande = "vill du verkligen ta bort " + valdPodd.Titel + ",den podd som du en gång höll så kärt?";
-            string titel = "du vet nog vad som gäller..";
+            string meddelande = "Vill du verkligen ta bort " + valdPodd.Titel + ", den podcasten som du en gång höll så kärt?";
+            string titel = "Du vet nog vad som gäller..";
             MessageBoxButtons knappar = MessageBoxButtons.YesNo;
             var meddelandeRuta = MessageBox.Show(meddelande, titel, knappar);
             if (meddelandeRuta == DialogResult.Yes)
@@ -95,9 +95,9 @@ namespace Poddprojekt25
                 {
                     await PodcastService.RaderaPodcast(valdPodd.Id);
                     uppdateraPoddlistaMinaSidor_Click(sender, e);
-                    MessageBox.Show("Podden har tagits bort :(");
+                    MessageBox.Show("Podcasten har tagits bort :(");
                 }
-                catch (Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel" + ex.Message); }
 
 
         }
@@ -107,9 +107,9 @@ namespace Poddprojekt25
             var valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
             DateTime datum1 = tidigareDatum.Value.Date;
             DateTime datum2 = senareDatum.Value.Date;
-           if(datum1 == null|| datum2 == null || valdPodd == null)
+            if (datum1 == null || datum2 == null || valdPodd == null)
             {
-                MessageBox.Show("vänligen fyll i båda datumen samt välj en podd");
+                MessageBox.Show("Vänligen fyll i båda datumen samt välj en podcast");
                 return;
             }
             var filtreradeAvsnitt = await AvsnittService.HämtaAvsnittMellanDatum(datum1, datum2, valdPodd);
@@ -175,7 +175,7 @@ namespace Poddprojekt25
         {
             var valtAvsnitt = (Avsnitt)listaAvsnittMinaSidor.SelectedItem;
             beskrivningsBoxMinaSidor.Clear();
-            beskrivningsBoxMinaSidor.AppendText(" du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
+            beskrivningsBoxMinaSidor.AppendText(" Du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
             //metod som tar emot avsnittsID eller nåt sånt och returnerar string med beskrivning
         }
 
@@ -208,7 +208,7 @@ namespace Poddprojekt25
         {
             var valtAvsnitt = (Avsnitt)listaAvsnittBox.SelectedItem;
             avsnittBeskrivning.Clear();
-            avsnittBeskrivning.AppendText(" du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
+            avsnittBeskrivning.AppendText(" Du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
@@ -239,7 +239,7 @@ namespace Poddprojekt25
             Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
             if (valdPodd == null)
             {
-                MessageBox.Show("vänligen välj en giltig podd");
+                MessageBox.Show("Vänligen välj en giltig podcast");
                 return;
             }
             try
@@ -309,7 +309,7 @@ namespace Poddprojekt25
         private async void listaPodcastKategori_SelectedIndexChanged(object sender, EventArgs e)
         {
             Podcast valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
-            if(valdPodd == null)
+            if (valdPodd == null)
             {
                 return;
             }
@@ -336,8 +336,8 @@ namespace Poddprojekt25
         private async void taBortKategori_Click(object sender, EventArgs e)
         {
             var valdKategori = (Kategori)listaKategorier.SelectedItem;
-            string meddelande = "vill du verkligen ta bort " + valdKategori.Namn + ",kategorin som en gång innehöll alla dina favoritpoddar?";
-            string titel = "du vet nog vad som gäller..";
+            string meddelande = "Vill du verkligen ta bort " + valdKategori.Namn + ", kategorin som en gång innehöll alla dina favoritpodcast?";
+            string titel = "Du vet nog vad som gäller..";
             MessageBoxButtons knappar = MessageBoxButtons.YesNo;
             var meddelandeRuta = MessageBox.Show(meddelande, titel, knappar);
             if (meddelandeRuta == DialogResult.Yes)
@@ -347,7 +347,7 @@ namespace Poddprojekt25
                     visaKategorier_Click(sender, e);
                     MessageBox.Show("Kategorin har tagits bort.");
                 }
-                catch (Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel" + ex.Message); }
 
         }
 
@@ -357,7 +357,7 @@ namespace Poddprojekt25
             var valdKategori = (Kategori)KategorierFörPodcast.SelectedItem;
             if (valdPodd == null || valdKategori == null)
             {
-                MessageBox.Show("vänligen välj en kategori");
+                MessageBox.Show("Vänligen välj en kategori");
                 return;
             }
             try
@@ -384,7 +384,7 @@ namespace Poddprojekt25
             var valdKategori = (Kategori)allaKategorier.SelectedItem;
             if (valdPodd == null || valdKategori == null)
             {
-                MessageBox.Show("vänligen välj en Podd samt en kategori");
+                MessageBox.Show("Vänligen välj en podcast samt en kategori");
                 return;
             }
             try
@@ -415,6 +415,10 @@ namespace Poddprojekt25
             VisaPodcastKategori_Click(sender, e);
             uppdateraPoddlistaMinaSidor_Click(sender, e);
         }
-        
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
