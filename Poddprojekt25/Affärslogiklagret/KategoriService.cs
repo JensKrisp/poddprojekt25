@@ -185,10 +185,10 @@ namespace Affärslogiklagret
 
         // Metod för att se vilka kategorier en podcast har
 
-        public async Task<List<Kategori>> HämtaKategorierFörPoscastAsync(string podcastId)
+        public async Task<List<Kategori>> HämtaKategorierFörPodcastAsync(string podcastId)
         {
             if (string.IsNullOrWhiteSpace(podcastId))
-                return new List<Kategori>();
+            { return new List<Kategori>(); }
 
             var allaKategorier = await kategoriRepo.HämtaAllaAsync();
             var kategorierFörPodcast = allaKategorier.FindAll(k =>

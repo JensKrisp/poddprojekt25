@@ -16,6 +16,6 @@ namespace Affärslogiklagret
         Task LäggTillPodcastIKategoriAsync(string kategoriId, string podcastId);
         Task TaBortPodcastFrånKategoriAsync(string kateg, string podcastId);
         Task<List<Podcast>> HämtaPodcastsFörKategoriAsync(string kategoriId);
-        Task<List<Kategori>> HämtaKategorierFörPoscastAsync(string podcastId);
+        Task<List<Kategori>> HämtaKategorierFörPodcastAsync(string podcastId);
     }
 }
