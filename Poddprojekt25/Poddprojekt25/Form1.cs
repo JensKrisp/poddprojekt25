@@ -17,6 +17,7 @@ namespace Poddprojekt25
             this.AvsnittService = AvsnittService;
             this.KategoriService = KategoriService;
             InitializeComponent();
+            this.Shown += Form1_Load;
         }
 
         private async void visapoddFlöde_Click(object sender, EventArgs e)
@@ -59,6 +60,7 @@ namespace Poddprojekt25
             {
                 var enPodcast = await PodcastService.LäsPodcastFrånUrl(URL.Text);
                 await PodcastService.SparaPodcastMedAvsnitt(enPodcast);
+                MessageBox.Show("Podden har sparats :)");
             }
             catch (Exception ex)
             {
@@ -93,6 +95,7 @@ namespace Poddprojekt25
                 {
                     await PodcastService.RaderaPodcast(valdPodd.Id);
                     uppdateraPoddlistaMinaSidor_Click(sender, e);
+                    MessageBox.Show("Podden har tagits bort :(");
                 }
                 catch (Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
 
@@ -255,7 +258,8 @@ namespace Poddprojekt25
 
         private void tabPage3_Click(object sender, EventArgs e)
         {
-
+            VisaPodcastKategori_Click(sender, e);
+            visaKategorier_Click(sender, e);
         }
 
         private async void bytNamnKnapp_Click(object sender, EventArgs e)
@@ -269,6 +273,7 @@ namespace Poddprojekt25
             try
             {
                 await PodcastService.UppdateraPodcastTitel(valdPodd.Id, nyttNamn);
+                uppdateraPoddlistaMinaSidor_Click(sender, e);
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
@@ -406,9 +411,10 @@ namespace Poddprojekt25
         private void Form1_Load(object sender, EventArgs e)
         {
             uppdateraPoddlistaMinaSidor_Click(sender, e);
-            VisaPodcastKategori_Click(sender, e);
             visaKategorier_Click(sender, e);
-            
+            VisaPodcastKategori_Click(sender, e);
+            uppdateraPoddlistaMinaSidor_Click(sender, e);
         }
+        
     }
 }

@@ -160,7 +160,7 @@
             tabPage1.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3, 3, 3, 3);
+            tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(1067, 623);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Startsida";
@@ -240,7 +240,7 @@
             tabPage2.Controls.Add(sorteraKategorierMinaSidor);
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3, 3, 3, 3);
+            tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(1067, 623);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Sparade podcasts";
@@ -454,7 +454,7 @@
             tabPage3.Controls.Add(skapanyKategori);
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3, 3, 3, 3);
+            tabPage3.Padding = new Padding(3);
             tabPage3.Size = new Size(1067, 623);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Kategorier";
@@ -644,6 +644,7 @@
             Controls.Add(poddTabbar);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             poddTabbar.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
