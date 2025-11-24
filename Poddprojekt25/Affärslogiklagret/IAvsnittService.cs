@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Affärslogiklagret
 {
-    public interface IAvsnittService
+    public interface IAvsnittService : IService<Avsnitt>
     {
         Task<List<Avsnitt>> HämtaAvsnittFörPodcast(string podcastId);
         Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast);
