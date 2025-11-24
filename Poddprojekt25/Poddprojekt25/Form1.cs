@@ -99,11 +99,19 @@ namespace Poddprojekt25
 
         }
 
-        private void publiceringsDatum_Click(object sender, EventArgs e)
+        private async void publiceringsDatum_Click(object sender, EventArgs e)
         {
+            var valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
             DateTime datum1 = tidigareDatum.Value.Date;
             DateTime datum2 = senareDatum.Value.Date;
             //en metod i arbetslagret som tar jämför dessa två datum och uppdaterar avsnittslistan
+            var filtreradeAvsnitt = await AvsnittService.HämtaAvsnittMellanDatum(datum1, datum2,valdPodd);
+            listaAvsnittMinaSidor.DisplayMember = "titel";
+            listaAvsnittMinaSidor.Items.Clear();
+            foreach(Avsnitt avsnitt in filtreradeAvsnitt)
+            {
+                listaAvsnittMinaSidor.Items.Add(avsnitt);
+            }
         }
 
         private void sorteraKategorier_SelectedIndexChanged(object sender, EventArgs e)
@@ -159,8 +167,8 @@ namespace Poddprojekt25
         private void listaAvsnittMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
             var valtAvsnitt = (Avsnitt)listaAvsnittMinaSidor.SelectedItem;
-            avsnittBeskrivning.Clear();
-            avsnittBeskrivning.AppendText(" du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
+            beskrivningsBoxMinaSidor.Clear();
+            beskrivningsBoxMinaSidor.AppendText(" du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
             //metod som tar emot avsnittsID eller nåt sånt och returnerar string med beskrivning
         }
 
@@ -221,9 +229,15 @@ namespace Poddprojekt25
 
         private async void listaPodcastMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
+            if(valdPodd == null)
+            {
+                MessageBox.Show("vänligen välj en giltig podd");
+                return;
+            }
             try
             {
-                Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
+                
                 var avsnittLista = await AvsnittService.HämtaAvsnittFörPodcast(valdPodd.Id);
                 listaAvsnittMinaSidor.DisplayMember = "Titel";
                 listaAvsnittMinaSidor.Items.Clear();
@@ -244,7 +258,7 @@ namespace Poddprojekt25
         {
             Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
             String nyttNamn = nyttNamnRuta.Text;
-            if (nyttNamn == "")
+            if (string.IsNullOrWhiteSpace(nyttNamn) || valdPodd == null)
             {
                 return;
             }
@@ -283,15 +297,32 @@ namespace Poddprojekt25
             }
         }
 
-        private void listaPodcastKategori_SelectedIndexChanged(object sender, EventArgs e)
+        private async void listaPodcastKategori_SelectedIndexChanged(object sender, EventArgs e)
         {
             Podcast valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
+            List<Kategori> kategorierFörPodcast = await KategoriService.HämtaKategorierFörPodcastAsync(valdPodd.Id);
+            List<Kategori> samtligaKategorier = await KategoriService.HämtaAllaKategorierAsync();
+            KategorierFörPodcast.DisplayMember = "Namn";
+            KategorierFörPodcast.Items.Clear();
+            allaKategorier.DisplayMember = "Namn";
+            allaKategorier.Items.Clear();
+            foreach (Kategori kategori in kategorierFörPodcast)
+            {
+                KategorierFörPodcast.Items.Add(kategori);
+            }
+            foreach (Kategori kategori in samtligaKategorier)
+            {
+                allaKategorier.Items.Add(kategori);
+            }
+
+
+
 
         }
 
         private async void taBortKategori_Click(object sender, EventArgs e)
         {
-            var valdKategori=(Kategori)listaKategorier.SelectedItem;
+            var valdKategori = (Kategori)listaKategorier.SelectedItem;
             string meddelande = "vill du verkligen ta bort " + valdKategori.Namn + ",kategorin som en gång innehöll alla dina favoritpoddar?";
             string titel = "du vet nog vad som gäller..";
             MessageBoxButtons knappar = MessageBoxButtons.YesNo;
@@ -304,6 +335,58 @@ namespace Poddprojekt25
                     MessageBox.Show("Kategorin har tagits bort.");
                 }
                 catch (Exception ex) { MessageBox.Show("lägg märke till detta fel" + ex.Message); }
+
+        }
+
+        private async void taBortKategoriFrånProjekt_Click(object sender, EventArgs e)
+        {
+            var valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
+            var valdKategori = (Kategori)KategorierFörPodcast.SelectedItem;
+            if (valdPodd == null || valdKategori == null)
+            {
+                MessageBox.Show("vänligen välj en kategori");
+                return;
+            }
+            try
+            {
+                await KategoriService.TaBortPodcastFrånKategoriAsync(valdKategori.Id, valdPodd.Id);
+                listaPodcastKategori_SelectedIndexChanged(sender, e);
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void läggTillKategoriIPodcast_Click(object sender, EventArgs e)
+        {
+            var valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
+            var valdKategori = (Kategori)allaKategorier.SelectedItem;
+            if (valdPodd == null)
+            {
+                MessageBox.Show("vänligen välj en Podd");
+                return;
+            }
+            try
+            {
+                await KategoriService.LäggTillPodcastIKategoriAsync(valdKategori.Id, valdPodd.Id);
+                listaPodcastKategori_SelectedIndexChanged(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
 
         }
     }

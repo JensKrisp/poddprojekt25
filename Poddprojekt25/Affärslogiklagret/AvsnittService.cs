@@ -31,7 +31,7 @@ namespace Affärslogiklagret
         }
 
         // Filtrera avsnitt mellan två datum
-        public async Task<List<Avsnitt>> HämtaAvsnittMellanDatum(DateTime datum1, DateTime datum2)
+        public async Task<List<Avsnitt>> HämtaAvsnittMellanDatum(DateTime datum1, DateTime datum2,Podcast podcast)
         {
             var alla = await avsnittRepo.HämtaAllaAsync();
 
@@ -46,6 +46,7 @@ namespace Affärslogiklagret
                   a.Publiceringsdatum.HasValue &&         
                   a.Publiceringsdatum.Value.Date >= datum1.Date &&
                   a.Publiceringsdatum.Value.Date <= datum2.Date
+                    && a.PodcastId == podcast.Id
               )
               .ToList();
         }
