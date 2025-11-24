@@ -150,6 +150,7 @@ namespace Poddprojekt25
             {
                 await KategoriService.SkapaKategoriAsync(nyKategori);
                 visaKategorier_Click(sender, e);
+                
             }
             catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle skapas. " + ex.Message); }
 
@@ -187,6 +188,17 @@ namespace Poddprojekt25
         private async void sorteraKategorier2_SelectedIndexChanged(object sender, EventArgs e)
         {
             var valdKategori = (Kategori)sorteraKategorierMinaSidor.SelectedItem;
+            if (valdKategori == null)
+            {
+                return;
+            }
+            if (valdKategori.Id == "-1")
+            {
+                uppdateraPoddlistaMinaSidor_Click(sender, e);
+                return;
+            }
+
+
             List<Podcast> podcastsFörKategori = await KategoriService.HämtaPodcastsFörKategoriAsync(valdKategori.Id);
             listaPodcastMinaSidor.Items.Clear();
             listaPodcastMinaSidor.DisplayMember = "Titel";
@@ -194,6 +206,7 @@ namespace Poddprojekt25
             {
                 listaPodcastMinaSidor.Items.Add(podcast);
             }
+
             //metod som tar emot en kategori och uppdaterar poddlistan i mina sparade poddar
         }
 
@@ -232,6 +245,7 @@ namespace Poddprojekt25
             {
                 sorteraKategorierMinaSidor.Items.Add(kategori);
             }
+            sorteraKategorierMinaSidor.Items.Add(new Kategori { Id = "-1", Namn = "Alla" });
         }
 
         private async void listaPodcastMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
@@ -290,6 +304,7 @@ namespace Poddprojekt25
             {
                 KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn);
                 visaKategorier_Click(sender, e);
+                
 
             }
             catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle ändras. " + ex.Message); }
@@ -346,12 +361,13 @@ namespace Poddprojekt25
                     await KategoriService.RaderaKategoriAsync(valdKategori.Id);
                     visaKategorier_Click(sender, e);
                     MessageBox.Show("Kategorin har tagits bort.");
+                    
                 }
                 catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel" + ex.Message); }
 
         }
 
-        private async void taBortKategoriFrånProjekt_Click(object sender, EventArgs e)
+        private async void taBortKategoriFrånPodcast_Click(object sender, EventArgs e)
         {
             var valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
             var valdKategori = (Kategori)KategorierFörPodcast.SelectedItem;
@@ -417,6 +433,11 @@ namespace Poddprojekt25
         }
 
         private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
 
         }
