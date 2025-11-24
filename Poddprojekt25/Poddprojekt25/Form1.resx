@@ -123,28 +123,4 @@
   <metadata name="listaAvsnittMinaSidor.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="beskrivningsBoxMinaSidor.Text" xml:space="preserve">
-    <value>Välkommen till dina sidor!
-För att se sparade poddar, klicka på uppdatera.
-För att sortera poddar efter kategorier välj en kategori
-i dropdownlistan.
-För att ändra namn på en podd,
-klicka på den podd du vill ändra och skriv in ett nytt namn i rutan 
-och klicka på ändra namn.
-För att ta bort en podd, markera den och klicka radera.
-För att söka avsnitt efter ett visst datumspann, välj 2 datum och klicka på sök.
-
-</value>
-  </data>
-  <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Välkommen till kategorihanteringen!
-Här finns det 2 listor, en med poddar, 
-där vi kan ta bort och lägga till kategorier.
-Och en med kategorier, där vi kan skapa en kategori,
-ändra namn på en kategori, och ta bort en kategori.
-för båda listorna gäller det att vi först väljer det vi vill ändra
-genom att klicka på det i listan.
-
-</value>
-  </data>
 </root>

@@ -104,11 +104,15 @@ namespace Poddprojekt25
             var valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
             DateTime datum1 = tidigareDatum.Value.Date;
             DateTime datum2 = senareDatum.Value.Date;
-            //en metod i arbetslagret som tar jämför dessa två datum och uppdaterar avsnittslistan
-            var filtreradeAvsnitt = await AvsnittService.HämtaAvsnittMellanDatum(datum1, datum2,valdPodd);
+           if(datum1 == null|| datum2 == null || valdPodd == null)
+            {
+                MessageBox.Show("vänligen fyll i båda datumen samt välj en podd");
+                return;
+            }
+            var filtreradeAvsnitt = await AvsnittService.HämtaAvsnittMellanDatum(datum1, datum2, valdPodd);
             listaAvsnittMinaSidor.DisplayMember = "titel";
             listaAvsnittMinaSidor.Items.Clear();
-            foreach(Avsnitt avsnitt in filtreradeAvsnitt)
+            foreach (Avsnitt avsnitt in filtreradeAvsnitt)
             {
                 listaAvsnittMinaSidor.Items.Add(avsnitt);
             }
@@ -230,14 +234,14 @@ namespace Poddprojekt25
         private async void listaPodcastMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
             Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
-            if(valdPodd == null)
+            if (valdPodd == null)
             {
                 MessageBox.Show("vänligen välj en giltig podd");
                 return;
             }
             try
             {
-                
+
                 var avsnittLista = await AvsnittService.HämtaAvsnittFörPodcast(valdPodd.Id);
                 listaAvsnittMinaSidor.DisplayMember = "Titel";
                 listaAvsnittMinaSidor.Items.Clear();
@@ -300,6 +304,10 @@ namespace Poddprojekt25
         private async void listaPodcastKategori_SelectedIndexChanged(object sender, EventArgs e)
         {
             Podcast valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
+            if(valdPodd == null)
+            {
+                return;
+            }
             List<Kategori> kategorierFörPodcast = await KategoriService.HämtaKategorierFörPodcastAsync(valdPodd.Id);
             List<Kategori> samtligaKategorier = await KategoriService.HämtaAllaKategorierAsync();
             KategorierFörPodcast.DisplayMember = "Namn";
@@ -369,9 +377,9 @@ namespace Poddprojekt25
         {
             var valdPodd = (Podcast)listaPodcastKategori.SelectedItem;
             var valdKategori = (Kategori)allaKategorier.SelectedItem;
-            if (valdPodd == null)
+            if (valdPodd == null || valdKategori == null)
             {
-                MessageBox.Show("vänligen välj en Podd");
+                MessageBox.Show("vänligen välj en Podd samt en kategori");
                 return;
             }
             try
@@ -388,6 +396,19 @@ namespace Poddprojekt25
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void senareDatum_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            uppdateraPoddlistaMinaSidor_Click(sender, e);
+            VisaPodcastKategori_Click(sender, e);
+            visaKategorier_Click(sender, e);
+            
         }
     }
 }
