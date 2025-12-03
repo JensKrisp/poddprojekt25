@@ -60,6 +60,8 @@ namespace Poddprojekt25
             {
                 var enPodcast = await PodcastService.LäsPodcastFrånUrl(URL.Text);
                 await PodcastService.SparaPodcastMedAvsnitt(enPodcast);
+ 
+                listaPodcastMinaSidor.Items.Add(enPodcast);
                 MessageBox.Show("Podcasten har sparats :)");
             }
             catch (Exception ex)
@@ -359,9 +361,9 @@ namespace Poddprojekt25
                 try
                 {
                     await KategoriService.RaderaKategoriAsync(valdKategori.Id);
-                    visaKategorier_Click(sender, e);
+                    listaKategorier.Items.Remove(valdKategori);
                     MessageBox.Show("Kategorin har tagits bort.");
-                    
+
                 }
                 catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel" + ex.Message); }
 
@@ -380,6 +382,7 @@ namespace Poddprojekt25
             {
                 await KategoriService.TaBortPodcastFrånKategoriAsync(valdKategori.Id, valdPodd.Id);
                 listaPodcastKategori_SelectedIndexChanged(sender, e);
+               
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
