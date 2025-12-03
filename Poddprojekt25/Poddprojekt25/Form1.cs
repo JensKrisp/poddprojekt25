@@ -62,6 +62,7 @@ namespace Poddprojekt25
                 await PodcastService.SparaPodcastMedAvsnitt(enPodcast);
  
                 listaPodcastMinaSidor.Items.Add(enPodcast);
+                listaPodcastKategori.Items.Add(enPodcast);
                 MessageBox.Show("Podcasten har sparats :)");
             }
             catch (Exception ex)
@@ -352,7 +353,12 @@ namespace Poddprojekt25
 
         private async void taBortKategori_Click(object sender, EventArgs e)
         {
+            
             var valdKategori = (Kategori)listaKategorier.SelectedItem;
+            if(valdKategori == null)
+            {
+                return;
+            }
             string meddelande = "Vill du verkligen ta bort " + valdKategori.Namn + ", kategorin som en gång innehöll alla dina favoritpodcast?";
             string titel = "Du vet nog vad som gäller..";
             MessageBoxButtons knappar = MessageBoxButtons.YesNo;
@@ -375,14 +381,15 @@ namespace Poddprojekt25
             var valdKategori = (Kategori)KategorierFörPodcast.SelectedItem;
             if (valdPodd == null || valdKategori == null)
             {
-                MessageBox.Show("Vänligen välj en kategori");
+                MessageBox.Show("Vänligen markera en podcast och välj en kategori");
                 return;
             }
             try
             {
                 await KategoriService.TaBortPodcastFrånKategoriAsync(valdKategori.Id, valdPodd.Id);
                 listaPodcastKategori_SelectedIndexChanged(sender, e);
-               
+                MessageBox.Show("Kategorin har tagits bort från podcasten.");
+
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
@@ -410,6 +417,7 @@ namespace Poddprojekt25
             {
                 await KategoriService.LäggTillPodcastIKategoriAsync(valdKategori.Id, valdPodd.Id);
                 listaPodcastKategori_SelectedIndexChanged(sender, e);
+                MessageBox.Show("Kategorin har lagts till podcasten.");
             }
             catch (Exception ex)
             {
