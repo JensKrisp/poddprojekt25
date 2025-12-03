@@ -60,6 +60,8 @@
             listaPodcastMinaSidor = new ListBox();
             sorteraKategorierMinaSidor = new ComboBox();
             tabPage3 = new TabPage();
+            label18 = new Label();
+            label16 = new Label();
             label17 = new Label();
             label15 = new Label();
             label10 = new Label();
@@ -77,8 +79,6 @@
             redigeraKategori = new TextBox();
             skapaKategoriText = new TextBox();
             visaKategorier = new Button();
-            label16 = new Label();
-            label18 = new Label();
             poddTabbar.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -110,7 +110,7 @@
             // sparaPodd
             // 
             sparaPodd.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            sparaPodd.Location = new Point(192, 570);
+            sparaPodd.Location = new Point(255, 565);
             sparaPodd.Margin = new Padding(4);
             sparaPodd.Name = "sparaPodd";
             sparaPodd.Size = new Size(155, 36);
@@ -487,6 +487,26 @@
             tabPage3.UseVisualStyleBackColor = true;
             tabPage3.Click += tabPage3_Click;
             // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Font = new Font("Cambria", 11F, FontStyle.Bold);
+            label18.Location = new Point(622, 32);
+            label18.Name = "label18";
+            label18.Size = new Size(176, 26);
+            label18.TabIndex = 36;
+            label18.Text = "Mina kategorier";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Cambria", 11F, FontStyle.Bold);
+            label16.Location = new Point(55, 32);
+            label16.Name = "label16";
+            label16.Size = new Size(91, 26);
+            label16.TabIndex = 35;
+            label16.Text = "Podcast";
+            // 
             // label17
             // 
             label17.AutoSize = true;
@@ -675,26 +695,6 @@
             visaKategorier.UseVisualStyleBackColor = true;
             visaKategorier.Visible = false;
             visaKategorier.Click += visaKategorier_Click;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            label16.Location = new Point(55, 32);
-            label16.Name = "label16";
-            label16.Size = new Size(91, 26);
-            label16.TabIndex = 35;
-            label16.Text = "Podcast";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            label18.Location = new Point(622, 32);
-            label18.Name = "label18";
-            label18.Size = new Size(176, 26);
-            label18.TabIndex = 36;
-            label18.Text = "Mina kategorier";
             // 
             // Form1
             // 
