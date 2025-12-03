@@ -60,7 +60,7 @@ namespace Poddprojekt25
             {
                 var enPodcast = await PodcastService.LäsPodcastFrånUrl(URL.Text);
                 await PodcastService.SparaPodcastMedAvsnitt(enPodcast);
- 
+
                 listaPodcastMinaSidor.Items.Add(enPodcast);
                 listaPodcastKategori.Items.Add(enPodcast);
                 MessageBox.Show("Podcasten har sparats :)");
@@ -153,7 +153,7 @@ namespace Poddprojekt25
             {
                 await KategoriService.SkapaKategoriAsync(nyKategori);
                 visaKategorier_Click(sender, e);
-                
+
             }
             catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle skapas. " + ex.Message); }
 
@@ -307,7 +307,7 @@ namespace Poddprojekt25
             {
                 KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn);
                 visaKategorier_Click(sender, e);
-                
+
 
             }
             catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle ändras. " + ex.Message); }
@@ -353,9 +353,9 @@ namespace Poddprojekt25
 
         private async void taBortKategori_Click(object sender, EventArgs e)
         {
-            
+
             var valdKategori = (Kategori)listaKategorier.SelectedItem;
-            if(valdKategori == null)
+            if (valdKategori == null)
             {
                 return;
             }
@@ -449,6 +449,11 @@ namespace Poddprojekt25
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void avsnittBeskrivning_TextChanged(object sender, EventArgs e)
         {
 
         }
