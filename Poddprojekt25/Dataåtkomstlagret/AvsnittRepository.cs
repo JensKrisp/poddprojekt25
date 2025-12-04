@@ -19,7 +19,7 @@ namespace Dataåtkomstlagret
             avsnittKollektion = databas.GetCollection<Avsnitt>("Avsnitt");
         }
 
-        // Hämta avsnitt med Id
+        
         public async Task<Avsnitt> HämtaMedIdAsync(string id)
         {
             try
@@ -33,7 +33,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Hämta alla Avsnitt
+        
         public async Task<List<Avsnitt>> HämtaAllaAsync()
         {
             try
@@ -47,7 +47,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Lägg till nytt avsnitt
+        
         public async Task LäggTillAsync(Avsnitt avsnitt)
         {
             try
@@ -60,7 +60,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Uppdatera avsnitt
+        
         public async Task UppdateraAsync(Avsnitt uppdateradAvsnitt, IClientSessionHandle session)
         {
             try
@@ -74,7 +74,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Ta bort avsnitt med Id
+        
         public async Task TaBortAsync(string id)
         {
             try

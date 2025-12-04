@@ -26,7 +26,7 @@ namespace Affärslogiklagret
             this.mongoKlient = mongoKlient;
         }
 
-        // Hämta alla kategorier
+
         public async Task<List<Kategori>> HämtaAllaKategorierAsync()
         {
             try
@@ -39,12 +39,19 @@ namespace Affärslogiklagret
             }
         }
 
-        // Skapa kategorier
+
+
         public async Task<Kategori> SkapaKategoriAsync(string namn)
         {
             if (string.IsNullOrWhiteSpace(namn))
-                throw new ArgumentException("Kategorin måste ha ett namn.");
-
+            {
+                throw new Exception("Kategorin måste ha ett namn.");
+            }
+            var befintligKategori = await kategoriRepo.HämtaMedNamnAsync(namn);
+            if (befintligKategori != null)
+            {
+                throw new Exception("En kategori med detta namn finns redan.");
+            }
             try
             {
                 var kategori = new Kategori
@@ -63,7 +70,7 @@ namespace Affärslogiklagret
             }
         }
 
-        // Byt namn på katgori
+
         public async Task ÄndraNamnPåKategoriAsync(string kategoriId, string nyttNamn)
         {
             if (string.IsNullOrWhiteSpace(nyttNamn))
@@ -92,7 +99,7 @@ namespace Affärslogiklagret
             }
         }
 
-        // Radera kategori
+
         public async Task RaderaKategoriAsync(string kategoriId)
         {
             using var session = await mongoKlient.StartSessionAsync();
@@ -110,7 +117,7 @@ namespace Affärslogiklagret
             }
         }
 
-        // Lägg till podcast i kategori
+
         public async Task LäggTillPodcastIKategoriAsync(string kategoriId, string podcastId)
         {
             using var session = await mongoKlient.StartSessionAsync();
@@ -135,7 +142,7 @@ namespace Affärslogiklagret
             }
         }
 
-        // Ta bort podcast från kategori
+
         public async Task TaBortPodcastFrånKategoriAsync(string kategoriId, string podcastId)
         {
             using var session = await mongoKlient.StartSessionAsync();
@@ -160,7 +167,7 @@ namespace Affärslogiklagret
             }
         }
 
-        // Hämta podcasts i en kategori
+
         public async Task<List<Podcast>> HämtaPodcastsFörKategoriAsync(string kategoriId)
         {
             try
@@ -183,7 +190,7 @@ namespace Affärslogiklagret
 
         }
 
-        // Metod för att se vilka kategorier en podcast har
+
 
         public async Task<List<Kategori>> HämtaKategorierFörPodcastAsync(string podcastId)
         {

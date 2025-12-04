@@ -105,7 +105,7 @@
             URL.Name = "URL";
             URL.Size = new Size(330, 29);
             URL.TabIndex = 4;
-            URL.TextChanged += URLOchMinaSparade_TextChanged;
+           
             // 
             // sparaPodd
             // 
@@ -227,7 +227,7 @@
             avsnittBeskrivning.Size = new Size(571, 256);
             avsnittBeskrivning.TabIndex = 10;
             avsnittBeskrivning.Text = "";
-            avsnittBeskrivning.TextChanged += avsnittBeskrivning_TextChanged;
+           
             // 
             // tabPage2
             // 
@@ -300,7 +300,7 @@
             beskrivningsBoxMinaSidor.Size = new Size(672, 259);
             beskrivningsBoxMinaSidor.TabIndex = 21;
             beskrivningsBoxMinaSidor.Text = "";
-            beskrivningsBoxMinaSidor.TextChanged += richTextBox1_TextChanged;
+        
             // 
             // uppdateraPoddlistaMinaSidor
             // 
@@ -431,7 +431,7 @@
             senareDatum.Name = "senareDatum";
             senareDatum.Size = new Size(232, 29);
             senareDatum.TabIndex = 12;
-            senareDatum.ValueChanged += senareDatum_ValueChanged;
+            
             // 
             // listaPodcastMinaSidor
             // 
@@ -651,7 +651,7 @@
             allaKategorier.Name = "allaKategorier";
             allaKategorier.Size = new Size(233, 29);
             allaKategorier.TabIndex = 21;
-            allaKategorier.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+           
             // 
             // redigeraKategoriKnapp
             // 

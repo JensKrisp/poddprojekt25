@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dataåtkomstlagret
 {
-     public interface IPodcastRepository : IRepository<Models.Podcast>
+     public interface IPodcastRepository : IRepository<Podcast>
 
     {
         Task<Podcast> HämtaMedURLAsync(string url);

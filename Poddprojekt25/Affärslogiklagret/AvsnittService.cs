@@ -23,19 +23,19 @@ namespace Affärslogiklagret
             this.mongoKlient = mongoKlient;
         }
 
-        // Hämta avsnitt för en podcast 
+
         public async Task<List<Avsnitt>> HämtaAvsnittFörPodcast(string podcastId)
         {
             var alla = await avsnittRepo.HämtaAllaAsync();
             return alla.Where(a => a.PodcastId == podcastId).ToList();
         }
 
-        // Filtrera avsnitt mellan två datum
+
         public async Task<List<Avsnitt>> HämtaAvsnittMellanDatum(DateTime datum1, DateTime datum2, Podcast podcast)
         {
             var alla = await avsnittRepo.HämtaAllaAsync();
 
-            // Se till att datum1 är det tidigare
+
             if (datum1 > datum2)
             {
                 (datum1, datum2) = (datum2, datum1);
@@ -52,7 +52,7 @@ namespace Affärslogiklagret
         }
 
 
-        // Läs in alla avsnitt från RSS-flöde för en podcast
+
         public async Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast)
         {
             try

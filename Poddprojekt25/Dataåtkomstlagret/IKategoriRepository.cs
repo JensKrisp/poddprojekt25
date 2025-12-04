@@ -9,6 +9,6 @@ namespace Dataåtkomstlagret
 {
     public interface IKategoriRepository: IRepository<Kategori>
     {
- 
+   Task<Kategori> HämtaMedNamnAsync(string namn);
     }
 }

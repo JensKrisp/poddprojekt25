@@ -12,7 +12,7 @@ namespace Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; } /*= ObjectId.GenerateNewId().ToString();*/
+        public string? Id { get; set; }
 
         [BsonElement("RssId")]
         public string? RssId { get; set; }

@@ -1,7 +1,4 @@
-﻿//using System;
-//using System.Net.Http;
-using System.Xml;
-//using System.Xml.Linq;
+﻿using System.Xml;
 using Models;
 using System.ServiceModel.Syndication;
 
@@ -15,7 +12,7 @@ namespace Dataåtkomstlagret
             this.enHttpKlient = enHttpKlient;
         }
 
-        // Hämta podcast från RSS-flöde
+        
         public async Task<Podcast> HämtaPodcast(string rssUrl)
         {
             try
@@ -65,7 +62,7 @@ namespace Dataåtkomstlagret
         }
 
 
-        // Hämta avsnitt från RSS-flöde
+        
         public async Task<List<Avsnitt>> HämtaAvsnitt(string rssUrl)
         {
             try

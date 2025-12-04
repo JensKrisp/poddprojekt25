@@ -13,7 +13,7 @@ namespace Models
         [BsonElement("Namn")]
         public string? Namn { get; set; }
 
-        // Lista med podcast-ID:n som hör till denna kategori
+
         [BsonElement("PodcastIds")]
         public List<string>? PodcastIds { get; set; }
     }

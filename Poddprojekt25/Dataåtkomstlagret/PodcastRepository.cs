@@ -18,7 +18,7 @@ namespace Dataåtkomstlagret
 
         }
 
-        // Hämta podcast med Id
+        
         public async Task<Podcast> HämtaMedIdAsync(string id)
         {
             try
@@ -32,7 +32,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Hämta podcast med URL
+        
         public async Task<Podcast> HämtaMedURLAsync(string url)
         {
             try
@@ -46,7 +46,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Hämta alla Podcasts
+        
         public async Task<List<Podcast>> HämtaAllaAsync()
         {
             try
@@ -60,7 +60,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Lägg till ny podcast
+        
         public async Task LäggTillAsync(Podcast podcast)
         {
             try
@@ -73,7 +73,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Uppdatera podcast
+        
         public async Task UppdateraAsync(Podcast uppdateradPodcast, IClientSessionHandle session)
         {
             try
@@ -87,7 +87,7 @@ namespace Dataåtkomstlagret
             }
         }
 
-        // Ta bort podcast med Id
+        
         public async Task TaBortAsync(string id)
         {
             try

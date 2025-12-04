@@ -37,22 +37,11 @@ namespace Poddprojekt25
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Kolla, det blev fel, alltihop" + ex.Message);
+                MessageBox.Show("Kolla, det blev fel, alltihop " + ex.Message);
 
             }
-            //metod som returnerar en lista poddar baserad på rss flödet, överför till poddlistan
-            //bör också uppdatera kategorierna i sorteraKategorier
         }
 
-        private void URLOchMinaSparade_TextChanged(object sender, EventArgs e)
-        {
-            //kod som returnerar ett projekt baserat på URL kanske? blir kanske lättast om den också returnerar en lista så slipper vi göra en ny metod
-        }
-
-        private void listaPoddar_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //uppdatera avsnittslista när podd väljs behöver metod som returnerar lista efter avsnitt kopplade till poddID
-        }
 
         private async void sparaPodd_Click(object sender, EventArgs e)
         {
@@ -72,10 +61,7 @@ namespace Poddprojekt25
             //lägg till vald podd i mina sparade poddar, beroende på hur vi tänker spara allt kan det bli att om vi sparar exakt alla poddar från rss flödet att vi lägger till en boolean eller nåt, annars spara db eller nåt
         }
 
-        private void listaAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private void listaPoddarMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -96,11 +82,13 @@ namespace Poddprojekt25
             if (meddelandeRuta == DialogResult.Yes)
                 try
                 {
-                    await PodcastService.RaderaPodcast(valdPodd.Id);
-                    uppdateraPoddlistaMinaSidor_Click(sender, e);
+                    listaPodcastMinaSidor.Items.Remove(valdPodd);
                     MessageBox.Show("Podcasten har tagits bort :(");
+                    await PodcastService.RaderaPodcast(valdPodd.Id);
+                   
+                   
                 }
-                catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel" + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel " + ex.Message); }
 
 
         }
@@ -124,21 +112,21 @@ namespace Poddprojekt25
             }
         }
 
-        private void sorteraKategorier_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //behöver en metod som tar emot en kategori och uppdaterar poddlistan med denna
-        }
+
 
         private async void visaKategorier_Click(object sender, EventArgs e)
         {
             var kategoriLista = await KategoriService.HämtaAllaKategorierAsync();
             listaKategorier.DisplayMember = "Namn";
             listaKategorier.Items.Clear();
+            sorteraKategorierMinaSidor.DisplayMember = "Namn";
+            sorteraKategorierMinaSidor.Items.Clear();
             foreach (Kategori kategori in kategoriLista)
             {
                 listaKategorier.Items.Add(kategori);
+                sorteraKategorierMinaSidor.Items.Add(kategori);
             }
-            //metod som uppdaterar listaKategorier med alla kategorier som finns, behöver inte nödvändigtvis sitta på en sån här knapp
+
         }
 
         private async void skapanyKategori_Click(object sender, EventArgs e)
@@ -149,31 +137,24 @@ namespace Poddprojekt25
                 MessageBox.Show("Skriv något i rutan ovanför för att skapa kategori");
                 return;
             }
-            try
+
             {
-                await KategoriService.SkapaKategoriAsync(nyKategori);
-                visaKategorier_Click(sender, e);
+                try
+                {
 
+
+                    await KategoriService.SkapaKategoriAsync(nyKategori);
+                    MessageBox.Show("Kategorin har skapats!");
+                    visaKategorier_Click(sender, e);
+
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Något gick fel när kategorin skulle skapas. " + ex.Message); }
+
+                //kanske en ny messagebox? iallafall en metod som tar emot en string och lägger till som tillgänglig kategori, vi kommer nog behöva spara kategorier som sin egen grej.... 
             }
-            catch (Exception ex) { MessageBox.Show("Något gick fel när kategorin skulle skapas. " + ex.Message); }
-
-            //kanske en ny messagebox? iallafall en metod som tar emot en string och lägger till som tillgänglig kategori, vi kommer nog behöva spara kategorier som sin egen grej.... 
         }
 
-        private void redigeraKategori_Click(object sender, EventArgs e)
-        {
-            // en metod som tar emot en string och kategoriID och uppdaterar kategorin i databasen
-        }
-
-        private void raderaKategori_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //lite liknande som radera podd, en messagebox med ja eller nej, sedan en metod som tar bort kategorin ur kategorilistan, frågor om hur det blir med de poddar som förlorar sin kategori :(
-        }
-
-        private void listaPoddarKategori_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //metod tar emot en string som uppdaterar poddlistan baserat på vald kategori
-        }
 
         private void listaAvsnittMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -183,10 +164,7 @@ namespace Poddprojekt25
             //metod som tar emot avsnittsID eller nåt sånt och returnerar string med beskrivning
         }
 
-        private void avsnittBeskrivningMinaSidor_TextChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private async void sorteraKategorier2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -210,13 +188,9 @@ namespace Poddprojekt25
                 listaPodcastMinaSidor.Items.Add(podcast);
             }
 
-            //metod som tar emot en kategori och uppdaterar poddlistan i mina sparade poddar
+
         }
 
-        private void listaKategorier_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //funderar vi istället använder denna lista för kategorihantering, metoderna i affärslogikslagret är dock desamma
-        }
 
 
 
@@ -227,10 +201,7 @@ namespace Poddprojekt25
             avsnittBeskrivning.AppendText(" Du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private async void uppdateraPoddlistaMinaSidor_Click(object sender, EventArgs e)
         {
@@ -256,7 +227,6 @@ namespace Poddprojekt25
             Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
             if (valdPodd == null)
             {
-                MessageBox.Show("Vänligen välj en giltig podcast");
                 return;
             }
             try
@@ -307,6 +277,7 @@ namespace Poddprojekt25
             {
                 KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn);
                 visaKategorier_Click(sender, e);
+                MessageBox.Show("Kategorin har ändrats.");
 
 
             }
@@ -366,12 +337,13 @@ namespace Poddprojekt25
             if (meddelandeRuta == DialogResult.Yes)
                 try
                 {
-                    await KategoriService.RaderaKategoriAsync(valdKategori.Id);
                     listaKategorier.Items.Remove(valdKategori);
-                    MessageBox.Show("Kategorin har tagits bort.");
+                    sorteraKategorierMinaSidor.Items.Remove(valdKategori);
+                    await KategoriService.RaderaKategoriAsync(valdKategori.Id);
+                    MessageBox.Show("Kategorin har tagits bort. ");
 
                 }
-                catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel" + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel " + ex.Message); }
 
         }
 
@@ -386,23 +358,16 @@ namespace Poddprojekt25
             }
             try
             {
+                KategorierFörPodcast.Items.Remove(valdKategori);
+                allaKategorier.Items.Add(valdKategori);
                 await KategoriService.TaBortPodcastFrånKategoriAsync(valdKategori.Id, valdPodd.Id);
-                listaPodcastKategori_SelectedIndexChanged(sender, e);
                 MessageBox.Show("Kategorin har tagits bort från podcasten.");
 
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private async void läggTillKategoriIPodcast_Click(object sender, EventArgs e)
         {
@@ -425,15 +390,7 @@ namespace Poddprojekt25
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void senareDatum_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -443,19 +400,7 @@ namespace Poddprojekt25
             uppdateraPoddlistaMinaSidor_Click(sender, e);
         }
 
-        private void label14_Click(object sender, EventArgs e)
-        {
 
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void avsnittBeskrivning_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

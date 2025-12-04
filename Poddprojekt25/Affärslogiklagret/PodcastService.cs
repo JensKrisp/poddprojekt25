@@ -24,13 +24,13 @@ namespace Affärslogiklagret
             this.mongoKlient = mongoKlient;
         }
 
-        //Hämta RSS-flöde och skapa podcast-objekt
+
         public async Task<Podcast> LäsPodcastFrånUrl(string url)
         {
             return await rssKlient.HämtaPodcast(url);
         }
 
-        // Spara podcast och avsnitt i transaktion 
+
         public async Task SparaPodcastMedAvsnitt(Podcast podcast)
         {
             using var session = await mongoKlient.StartSessionAsync();
@@ -38,7 +38,7 @@ namespace Affärslogiklagret
 
             try
             {
-                //Validering om podd redan finns sparad
+
                 var befintligPodcast = await podcastRepo.HämtaMedURLAsync(podcast.URL);
                 if (befintligPodcast != null)
                 {
@@ -64,13 +64,13 @@ namespace Affärslogiklagret
             }
         }
 
-        // Hämta alla podcasts
+
         public async Task<List<Podcast>> HämtaAllaPodcast()
         {
             return await podcastRepo.HämtaAllaAsync();
         }
 
-        // Uppdatera podcastnamn med transaktion
+
         public async Task UppdateraPodcastTitel(string podcastId, string nyTitel)
         {
             using var session = await mongoKlient.StartSessionAsync();
@@ -96,7 +96,7 @@ namespace Affärslogiklagret
             }
         }
 
-        // Uppdatera podcast-kategori med transaktion
+
         public async Task UppdateraPodcastKategori(string podcastId, string nyKategori)
         {
             using var session = await mongoKlient.StartSessionAsync();
@@ -122,7 +122,7 @@ namespace Affärslogiklagret
 
         }
 
-        // Radera podcast och avsnitt (transaktion)
+
         public async Task RaderaPodcast(string podcastId)
         {
             using var session = await mongoKlient.StartSessionAsync();

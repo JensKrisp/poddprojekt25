@@ -8,12 +8,12 @@ namespace Models
 {
     public class Podcast
 
-        //hej testar en grej 
+    //hej testar en grej 
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-        
+
         [BsonElement("Titel")]
         public string Titel { get; set; }
 
