@@ -14,11 +14,11 @@ namespace Affärslogiklagret
     public class KategoriService : IKategoriService
     {
         private readonly RssKlient rssKlient;
-        private readonly KategoriRepository kategoriRepo;
-        private readonly PodcastRepository podcastRepo;
+        private readonly IKategoriRepository kategoriRepo;
+        private readonly IRepository<Podcast> podcastRepo;
         private readonly IMongoClient mongoKlient;
 
-        public KategoriService(RssKlient rssKlient, KategoriRepository kategoriRepo, PodcastRepository podcastRepo, IMongoClient mongoKlient)
+        public KategoriService(RssKlient rssKlient, IKategoriRepository kategoriRepo, PodcastRepository podcastRepo, IMongoClient mongoKlient)
         {
             this.rssKlient = rssKlient;
             this.kategoriRepo = kategoriRepo;
