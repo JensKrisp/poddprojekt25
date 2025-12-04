@@ -11,9 +11,9 @@ namespace Affärslogiklagret
     {
         Task<List<Avsnitt>> HämtaAvsnittFörPodcast(string podcastId);
         Task<List<Avsnitt>> LäsInAllaAvsnitt(Podcast enPodcast);
-        Task<List<Avsnitt>> HämtaAvsnittMellanDatum(DateTime datum1, DateTime datum2,Podcast podcast);
-          
-      
+        Task<List<Avsnitt>> HämtaAvsnittMellanDatum(DateTime datum1, DateTime datum2, Podcast podcast);
+
+
 
     }
 }

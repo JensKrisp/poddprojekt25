@@ -17,7 +17,7 @@ namespace Affärslogiklagret
 
         Task UppdateraPodcastTitel(string podcastId, string nyTitel);
 
-        Task UppdateraPodcastKategori(string podcastId, string nyKategori); // ska kanske ligga i KategoriService
+        Task UppdateraPodcastKategori(string podcastId, string nyKategori);
 
         Task RaderaPodcast(string podcastId);
     }
