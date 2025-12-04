@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Dataåtkomstlagret
 {
-    public class KategoriRepository : IRepository<Kategori>
+    public class KategoriRepository : IKategoriRepository
     {
         private readonly IMongoCollection<Kategori> kategoriKollektion;
 
