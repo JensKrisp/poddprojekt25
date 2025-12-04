@@ -51,15 +51,9 @@ namespace Dataåtkomstlagret
         }
         public async Task<Kategori> HämtaMedNamnAsync(string namn)
         {
-            try
-            {
                 var filter = Builders<Kategori>.Filter.Eq(k => k.Namn, namn);
                 return await kategoriKollektion.Find(filter).FirstOrDefaultAsync();
-            }
-            catch
-            {
-                throw new Exception("Kategorin finns redan sparad i databasen");
-            }
+            
         }
     }
 }

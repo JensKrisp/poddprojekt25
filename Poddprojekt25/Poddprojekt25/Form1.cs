@@ -340,8 +340,9 @@ namespace Poddprojekt25
                 try
                 {
                     listaKategorier.Items.Remove(valdKategori);
-                    sorteraKategorierMinaSidor.Items.Remove(valdKategori);
+                    
                     await KategoriService.RaderaKategoriAsync(valdKategori.Id);
+                    visaKategorier_Click(sender, e);
                     MessageBox.Show("Kategorin har tagits bort. ");
 
                 }

@@ -38,7 +38,17 @@ namespace Affärslogiklagret
                 throw new InvalidOperationException("Kunde inte hämta kategorier.", ex);
             }
         }
-
+        public async Task<Kategori> BefintligtNamnAsync(string namn)
+        {
+            try
+            {
+                return await kategoriRepo.HämtaMedNamnAsync(namn);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Kunde inte hämta kategori med namn.", ex);
+            }
+        }
 
 
         public async Task<Kategori> SkapaKategoriAsync(string namn)

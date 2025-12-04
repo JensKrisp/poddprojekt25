@@ -35,70 +35,36 @@ namespace Dataåtkomstlagret
         
         public async Task<Podcast> HämtaMedURLAsync(string url)
         {
-            try
-            {
                 var filter = Builders<Podcast>.Filter.Eq(p => p.URL, url);
                 return await podcastKollektion.Find(filter).FirstOrDefaultAsync();
-            }
-            catch
-            {
-                throw new Exception("Podcasten finns redan sparad i databasen");
-            }
         }
 
         
         public async Task<List<Podcast>> HämtaAllaAsync()
         {
-            try
-            {
                 var filter = Builders<Podcast>.Filter.Empty;
                 return await podcastKollektion.Find(filter).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte hämta podcasts från databasen.", ex);
-            }
         }
 
         
         public async Task LäggTillAsync(Podcast podcast)
         {
-            try
-            {
                 await podcastKollektion.InsertOneAsync(podcast);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte spara podcasts i databasen.", ex);
-            }
         }
 
         
         public async Task UppdateraAsync(Podcast uppdateradPodcast, IClientSessionHandle session)
         {
-            try
-            {
                 var filter = Builders<Podcast>.Filter.Eq(p => p.Id, uppdateradPodcast.Id);
                 var updateResult = await podcastKollektion.ReplaceOneAsync(session, filter, uppdateradPodcast);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte uppdatera podcast i databasen.", ex);
-            }
         }
 
         
         public async Task TaBortAsync(string id)
         {
-            try
-            {
                 var filter = Builders<Podcast>.Filter.Eq(p => p.Id, id);
                 await podcastKollektion.DeleteOneAsync(filter);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte radera podcast från databasen.", ex);
-            }
+           
         }
     }
 }
