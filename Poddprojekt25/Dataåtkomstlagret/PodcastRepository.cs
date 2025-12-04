@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Dataåtkomstlagret
 {
-    public class PodcastRepository : IRepository<Podcast>
+    public class PodcastRepository : IPodcastRepository
     {
         private readonly IMongoCollection<Podcast> podcastKollektion;
         public IMongoCollection<Podcast> PodcastCollection => podcastKollektion;
@@ -27,6 +27,18 @@ namespace Dataåtkomstlagret
             catch (Exception ex)
             {
                 throw new Exception("Kunde inte hämta podcast från databasen.", ex);
+            }
+        }
+        public async Task<Podcast> HämtaMedURLAsync(string url)
+        {
+            try
+            {
+                var filter = Builders<Podcast>.Filter.Eq(p => p.URL, url);
+                return await podcastKollektion.Find(filter).FirstOrDefaultAsync();
+            }
+            catch
+            {
+                throw new Exception("Podcasten finns redan sparad i databasen");
             }
         }
 

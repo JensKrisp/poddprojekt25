@@ -12,8 +12,8 @@ namespace Affärslogiklagret
     public class PodcastService : IPodcastService
     {
         private readonly RssKlient rssKlient;
-        private readonly PodcastRepository podcastRepo;
-        private readonly AvsnittRepository avsnittRepo;
+        private readonly IPodcastRepository podcastRepo;
+        private readonly IRepository<Avsnitt> avsnittRepo;
         private readonly IMongoClient mongoKlient;
 
         public PodcastService(RssKlient rssKlient, PodcastRepository podcastRepo, AvsnittRepository avsnittRepo, IMongoClient mongoKlient)
@@ -39,9 +39,9 @@ namespace Affärslogiklagret
             try
             {
                 //Validering om podd redan finns sparad
-                var filter = Builders<Podcast>.Filter.Eq(P => P.URL, podcast.URL);
-                var befintligPodcast = await podcastRepo.PodcastCollection.Find(filter).FirstOrDefaultAsync();
-
+                //var filter = Builders<Podcast>.Filter.Eq(P => P.URL, podcast.URL);
+                //var befintligPodcast = await podcastRepo.PodcastCollection.Find(filter).FirstOrDefaultAsync();
+                var befintligPodcast = await podcastRepo.HämtaMedURLAsync(podcast.URL);
                 if (befintligPodcast != null)
                 {
                     throw new InvalidOperationException(" Podcasten finns redan sparad i databasen.");
