@@ -58,15 +58,11 @@ namespace Poddprojekt25
             {
                 MessageBox.Show("Något gick fel när podcasten skulle sparas. " + ex.Message);
             }
-            //lägg till vald podd i mina sparade poddar, beroende på hur vi tänker spara allt kan det bli att om vi sparar exakt alla poddar från rss flödet att vi lägger till en boolean eller nåt, annars spara db eller nåt
+
         }
 
 
 
-        private void listaPoddarMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //väldigt liknande den andra listan där vi ska visa avsnitt från podd kanske blir exakt likadant
-        }
 
         private async void raderapodd_Click(object sender, EventArgs e)
         {
@@ -83,10 +79,11 @@ namespace Poddprojekt25
                 try
                 {
                     listaPodcastMinaSidor.Items.Remove(valdPodd);
+                    listaPodcastKategori.Items.Remove(valdPodd);
                     MessageBox.Show("Podcasten har tagits bort :(");
                     await PodcastService.RaderaPodcast(valdPodd.Id);
-                   
-                   
+
+
                 }
                 catch (Exception ex) { MessageBox.Show("Lägg märke till detta fel " + ex.Message); }
 
@@ -151,17 +148,22 @@ namespace Poddprojekt25
                 catch (Exception ex)
                 { MessageBox.Show("Något gick fel när kategorin skulle skapas. " + ex.Message); }
 
-                //kanske en ny messagebox? iallafall en metod som tar emot en string och lägger till som tillgänglig kategori, vi kommer nog behöva spara kategorier som sin egen grej.... 
+
             }
         }
 
 
         private void listaAvsnittMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             var valtAvsnitt = (Avsnitt)listaAvsnittMinaSidor.SelectedItem;
+            if(valtAvsnitt == null)
+            {
+                return;
+            }
             beskrivningsBoxMinaSidor.Clear();
             beskrivningsBoxMinaSidor.AppendText(" Du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
-            //metod som tar emot avsnittsID eller nåt sånt och returnerar string med beskrivning
+
         }
 
 
