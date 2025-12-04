@@ -39,8 +39,6 @@ namespace Affärslogiklagret
             try
             {
                 //Validering om podd redan finns sparad
-                //var filter = Builders<Podcast>.Filter.Eq(P => P.URL, podcast.URL);
-                //var befintligPodcast = await podcastRepo.PodcastCollection.Find(filter).FirstOrDefaultAsync();
                 var befintligPodcast = await podcastRepo.HämtaMedURLAsync(podcast.URL);
                 if (befintligPodcast != null)
                 {
@@ -53,7 +51,7 @@ namespace Affärslogiklagret
                 {
                     avsnitt.PodcastId = podcast.Id;
 
-                    avsnitt.Id = null; // MongoDB skapar id
+                    avsnitt.Id = null;
                     await avsnittRepo.LäggTillAsync(avsnitt);
                 }
 
