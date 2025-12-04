@@ -10,11 +10,12 @@ namespace Dataåtkomstlagret
     public class RssKlient
     {
         private readonly HttpClient enHttpKlient;
-
         public RssKlient(HttpClient enHttpKlient)
         {
             this.enHttpKlient = enHttpKlient;
         }
+
+        // Hämta podcast från RSS-flöde
         public async Task<Podcast> HämtaPodcast(string rssUrl)
         {
             try
@@ -29,7 +30,7 @@ namespace Dataåtkomstlagret
                 {
                     Titel = dataFlöde.Title?.Text ?? "Okänd titel",
                     URL = rssUrl,
-                    Kategori = "", // användaren väljer kategori senare
+                    Kategori = "", 
                     Avsnitt = new List<Avsnitt>()
                 };
 
@@ -37,7 +38,7 @@ namespace Dataåtkomstlagret
                 {
                     Avsnitt avsnitt = new Avsnitt
                     {
-                        RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
+                        RssId = item.Id, 
                         Titel = item.Title?.Text ?? "Okänd titel",
                         Beskrivning = item.Summary?.Text ?? "",
                         Publiceringsdatum = item.PublishDate.UtcDateTime,
@@ -51,7 +52,7 @@ namespace Dataåtkomstlagret
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception(". Kunde inte kontakta servern. Kontrollera din internetanslutning eller URL", ex);
+                throw new Exception(". Kunde inte kontakta servern. Kontrollera din internetanslutning eller URL.", ex);
             }
             catch (XmlException ex)
             {
@@ -64,6 +65,7 @@ namespace Dataåtkomstlagret
         }
 
 
+        // Hämta avsnitt från RSS-flöde
         public async Task<List<Avsnitt>> HämtaAvsnitt(string rssUrl)
         {
             try
@@ -79,7 +81,7 @@ namespace Dataåtkomstlagret
                 {
                     Avsnitt avsnitt = new Avsnitt
                     {
-                        RssId = item.Id, // Hämtar det id RSS-flödet den givit podcasten
+                        RssId = item.Id, 
                         Titel = item.Title?.Text ?? "Okänd titel",
                         Beskrivning = item.Summary?.Text ?? "",
                         Publiceringsdatum = item.PublishDate.UtcDateTime,
@@ -96,7 +98,7 @@ namespace Dataåtkomstlagret
             }
             catch (XmlException ex)
             {
-                throw new Exception(". RSS-flödet är skadat eller ogiltigt.", ex);
+                throw new Exception(". RSS-flödet är ogiltigt.", ex);
             }
             catch (Exception ex)
             {
