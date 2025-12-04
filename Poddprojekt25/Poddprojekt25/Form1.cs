@@ -267,7 +267,7 @@ namespace Poddprojekt25
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
-        private void redigeraKategoriKnapp_Click(object sender, EventArgs e)
+        private async void redigeraKategoriKnapp_Click(object sender, EventArgs e)
         {
             String nyttKategoriNamn = redigeraKategori.Text;
             Kategori valdKategori = (Kategori)listaKategorier.SelectedItem;
@@ -277,7 +277,7 @@ namespace Poddprojekt25
             }
             try
             {
-                KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn);
+                await KategoriService.ÄndraNamnPåKategoriAsync(valdKategori.Id, nyttKategoriNamn);
                 visaKategorier_Click(sender, e);
                 MessageBox.Show("Kategorin har ändrats.");
 
