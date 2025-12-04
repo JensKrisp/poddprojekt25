@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace Dataåtkomstlagret
 {
-    public class AvsnittRepository : IRepository<Avsnitt>
+    public class AvsnittRepository : IAvsnittRepository
     {
         private readonly IMongoCollection<Avsnitt> avsnittKollektion;
 

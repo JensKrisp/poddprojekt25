@@ -12,11 +12,11 @@ namespace Affärslogiklagret
 {
     public class AvsnittService : IAvsnittService
     {
-        private readonly AvsnittRepository avsnittRepo;
+        private readonly IAvsnittRepository avsnittRepo;
         private readonly RssKlient rssKlient;
         private readonly IMongoClient mongoKlient;
 
-        public AvsnittService(AvsnittRepository avsnittRepo, RssKlient rssKlient, IMongoClient mongoKlient)
+        public AvsnittService(IAvsnittRepository avsnittRepo, RssKlient rssKlient, IMongoClient mongoKlient)
         {
             this.avsnittRepo = avsnittRepo;
             this.rssKlient = rssKlient;
