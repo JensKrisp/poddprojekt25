@@ -22,70 +22,43 @@ namespace Dataåtkomstlagret
         
         public async Task<Avsnitt> HämtaMedIdAsync(string id)
         {
-            try
-            {
+
+           
                 var filter = Builders<Avsnitt>.Filter.Eq(p => p.Id, id);
                 return await avsnittKollektion.Find(filter).FirstOrDefaultAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte hämta avsnitt från databasen.", ex);
-            }
+       
         }
 
-        
+
         public async Task<List<Avsnitt>> HämtaAllaAsync()
+
         {
-            try
-            {
-                var filter = Builders<Avsnitt>.Filter.Empty;
-                return await avsnittKollektion.Find(filter).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte hämta avsnitt från databasen.", ex);
-            }
-        }
+            var filter = Builders<Avsnitt>.Filter.Empty;
+            return await avsnittKollektion.Find(filter).ToListAsync();
+        } 
 
         
         public async Task LäggTillAsync(Avsnitt avsnitt)
         {
-            try
-            {
+
                 await avsnittKollektion.InsertOneAsync(avsnitt);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte spara avsnitt i databasen.", ex);
-            }
+
         }
 
         
         public async Task UppdateraAsync(Avsnitt uppdateradAvsnitt, IClientSessionHandle session)
         {
-            try
-            {
                 var filter = Builders<Avsnitt>.Filter.Eq(p => p.Id, uppdateradAvsnitt.Id);
                 var updateResult = await avsnittKollektion.ReplaceOneAsync(session, filter, uppdateradAvsnitt);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte uppdatera avsnitt i databasen.", ex);
-            }
+
         }
 
         
         public async Task TaBortAsync(string id)
         {
-            try
-            {
                 var filter = Builders<Avsnitt>.Filter.Eq(p => p.Id, id);
                 await avsnittKollektion.DeleteOneAsync(filter);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Kunde inte radera avsnitt från databasen.", ex);
-            }
+            
         }
     }
 }

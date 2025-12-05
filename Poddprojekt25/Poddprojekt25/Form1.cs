@@ -92,20 +92,27 @@ namespace Poddprojekt25
 
         private async void publiceringsDatum_Click(object sender, EventArgs e)
         {
-            var valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
-            DateTime datum1 = tidigareDatum.Value.Date;
-            DateTime datum2 = senareDatum.Value.Date;
-            if (datum1 == null || datum2 == null || valdPodd == null)
+            try
             {
-                MessageBox.Show("Vänligen fyll i båda datumen samt välj en podcast");
-                return;
+                var valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
+                DateTime datum1 = tidigareDatum.Value.Date;
+                DateTime datum2 = senareDatum.Value.Date;
+                if (datum1 == null || datum2 == null || valdPodd == null)
+                {
+                    MessageBox.Show("Vänligen fyll i båda datumen samt välj en podcast");
+                    return;
+                }
+                var filtreradeAvsnitt = await AvsnittService.HämtaAvsnittMellanDatum(datum1, datum2, valdPodd);
+                listaAvsnittMinaSidor.DisplayMember = "titel";
+                listaAvsnittMinaSidor.Items.Clear();
+                foreach (Avsnitt avsnitt in filtreradeAvsnitt)
+                {
+                    listaAvsnittMinaSidor.Items.Add(avsnitt);
+                }
             }
-            var filtreradeAvsnitt = await AvsnittService.HämtaAvsnittMellanDatum(datum1, datum2, valdPodd);
-            listaAvsnittMinaSidor.DisplayMember = "titel";
-            listaAvsnittMinaSidor.Items.Clear();
-            foreach (Avsnitt avsnitt in filtreradeAvsnitt)
+            catch (Exception ex)
             {
-                listaAvsnittMinaSidor.Items.Add(avsnitt);
+                MessageBox.Show("Något gick fel när avsnitten skulle hämtas. " + ex.Message);
             }
         }
 
@@ -113,17 +120,20 @@ namespace Poddprojekt25
 
         private async void visaKategorier_Click(object sender, EventArgs e)
         {
-            var kategoriLista = await KategoriService.HämtaAllaKategorierAsync();
-            listaKategorier.DisplayMember = "Namn";
-            listaKategorier.Items.Clear();
-            sorteraKategorierMinaSidor.DisplayMember = "Namn";
-            sorteraKategorierMinaSidor.Items.Clear();
-            foreach (Kategori kategori in kategoriLista)
+            try
             {
-                listaKategorier.Items.Add(kategori);
-                sorteraKategorierMinaSidor.Items.Add(kategori);
+                var kategoriLista = await KategoriService.HämtaAllaKategorierAsync();
+                listaKategorier.DisplayMember = "Namn";
+                listaKategorier.Items.Clear();
+                sorteraKategorierMinaSidor.DisplayMember = "Namn";
+                sorteraKategorierMinaSidor.Items.Clear();
+                foreach (Kategori kategori in kategoriLista)
+                {
+                    listaKategorier.Items.Add(kategori);
+                    sorteraKategorierMinaSidor.Items.Add(kategori);
+                }
             }
-
+            catch (Exception ex) { MessageBox.Show("Något gick fel när kategorierna skulle hämtas. " + ex.Message); }
         }
 
         private async void skapanyKategori_Click(object sender, EventArgs e)
@@ -155,9 +165,9 @@ namespace Poddprojekt25
 
         private void listaAvsnittMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
             var valtAvsnitt = (Avsnitt)listaAvsnittMinaSidor.SelectedItem;
-            if(valtAvsnitt == null)
+            if (valtAvsnitt == null)
             {
                 return;
             }
@@ -181,15 +191,17 @@ namespace Poddprojekt25
                 return;
             }
 
-
-            List<Podcast> podcastsFörKategori = await KategoriService.HämtaPodcastsFörKategoriAsync(valdKategori.Id);
-            listaPodcastMinaSidor.Items.Clear();
-            listaPodcastMinaSidor.DisplayMember = "Titel";
-            foreach (Podcast podcast in podcastsFörKategori)
+            try
             {
-                listaPodcastMinaSidor.Items.Add(podcast);
+                List<Podcast> podcastsFörKategori = await KategoriService.HämtaPodcastsFörKategoriAsync(valdKategori.Id);
+                listaPodcastMinaSidor.Items.Clear();
+                listaPodcastMinaSidor.DisplayMember = "Titel";
+                foreach (Podcast podcast in podcastsFörKategori)
+                {
+                    listaPodcastMinaSidor.Items.Add(podcast);
+                }
             }
-
+            catch (Exception ex) { MessageBox.Show("Något gick fel när poddarna skulle hämtas. " + ex.Message); }
 
         }
 
@@ -199,6 +211,10 @@ namespace Poddprojekt25
         private void listaAvsnittBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var valtAvsnitt = (Avsnitt)listaAvsnittBox.SelectedItem;
+            if (valtAvsnitt == null)
+            {
+                return;
+            }
             avsnittBeskrivning.Clear();
             avsnittBeskrivning.AppendText(" Du har valt att lära dig mer om " + valtAvsnitt.Titel + " det är ett avsnitt som publicerades " + valtAvsnitt.Publiceringsdatum + " och handlar lite om " + valtAvsnitt.Beskrivning);
         }
@@ -207,23 +223,29 @@ namespace Poddprojekt25
 
         private async void uppdateraPoddlistaMinaSidor_Click(object sender, EventArgs e)
         {
-            var poddlista = await PodcastService.HämtaAllaPodcast();
-            var kategoriLista = await KategoriService.HämtaAllaKategorierAsync();
-            listaPodcastMinaSidor.DisplayMember = "Titel";
-            listaPodcastMinaSidor.Items.Clear();
-            sorteraKategorierMinaSidor.DisplayMember = "Namn";
-            sorteraKategorierMinaSidor.Items.Clear();
-            foreach (Podcast podcast in poddlista)
+            try
             {
-                listaPodcastMinaSidor.Items.Add(podcast);
+                var poddlista = await PodcastService.HämtaAllaPodcast();
+                var kategoriLista = await KategoriService.HämtaAllaKategorierAsync();
+                listaPodcastMinaSidor.DisplayMember = "Titel";
+                listaPodcastMinaSidor.Items.Clear();
+                sorteraKategorierMinaSidor.DisplayMember = "Namn";
+                sorteraKategorierMinaSidor.Items.Clear();
+                foreach (Podcast podcast in poddlista)
+                {
+                    listaPodcastMinaSidor.Items.Add(podcast);
+                }
+                foreach (Kategori kategori in kategoriLista)
+                {
+                    sorteraKategorierMinaSidor.Items.Add(kategori);
+                }
+                sorteraKategorierMinaSidor.Items.Add(new Kategori { Id = "-1", Namn = "Alla" });
             }
-            foreach (Kategori kategori in kategoriLista)
+            catch (Exception ex)
             {
-                sorteraKategorierMinaSidor.Items.Add(kategori);
+                MessageBox.Show("Något gick fel när poddlistan skulle uppdateras. " + ex.Message);
             }
-            sorteraKategorierMinaSidor.Items.Add(new Kategori { Id = "-1", Namn = "Alla" });
         }
-
         private async void listaPodcastMinaSidor_SelectedIndexChanged(object sender, EventArgs e)
         {
             Podcast valdPodd = (Podcast)listaPodcastMinaSidor.SelectedItem;
@@ -263,8 +285,10 @@ namespace Poddprojekt25
             {
                 await PodcastService.UppdateraPodcastTitel(valdPodd.Id, nyttNamn);
                 uppdateraPoddlistaMinaSidor_Click(sender, e);
+                VisaPodcastKategori_Click(sender, e);
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
         }
 
         private async void redigeraKategoriKnapp_Click(object sender, EventArgs e)
@@ -288,12 +312,19 @@ namespace Poddprojekt25
 
         private async void VisaPodcastKategori_Click(object sender, EventArgs e)
         {
-            var poddlista = await PodcastService.HämtaAllaPodcast();
-            listaPodcastKategori.DisplayMember = "Titel";
-            listaPodcastKategori.Items.Clear();
-            foreach (Podcast podcast in poddlista)
+            try
             {
-                listaPodcastKategori.Items.Add(podcast);
+                var poddlista = await PodcastService.HämtaAllaPodcast();
+                listaPodcastKategori.DisplayMember = "Titel";
+                listaPodcastKategori.Items.Clear();
+                foreach (Podcast podcast in poddlista)
+                {
+                    listaPodcastKategori.Items.Add(podcast);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Något gick fel när poddlistan skulle uppdateras. " + ex.Message);
             }
         }
 
@@ -304,21 +335,24 @@ namespace Poddprojekt25
             {
                 return;
             }
-            List<Kategori> kategorierFörPodcast = await KategoriService.HämtaKategorierFörPodcastAsync(valdPodd.Id);
-            List<Kategori> samtligaKategorier = await KategoriService.HämtaAllaKategorierAsync();
-            KategorierFörPodcast.DisplayMember = "Namn";
-            KategorierFörPodcast.Items.Clear();
-            allaKategorier.DisplayMember = "Namn";
-            allaKategorier.Items.Clear();
-            foreach (Kategori kategori in kategorierFörPodcast)
+            try
             {
-                KategorierFörPodcast.Items.Add(kategori);
+                List<Kategori> kategorierFörPodcast = await KategoriService.HämtaKategorierFörPodcastAsync(valdPodd.Id);
+                List<Kategori> samtligaKategorier = await KategoriService.HämtaAllaKategorierAsync();
+                KategorierFörPodcast.DisplayMember = "Namn";
+                KategorierFörPodcast.Items.Clear();
+                allaKategorier.DisplayMember = "Namn";
+                allaKategorier.Items.Clear();
+                foreach (Kategori kategori in kategorierFörPodcast)
+                {
+                    KategorierFörPodcast.Items.Add(kategori);
+                }
+                foreach (Kategori kategori in samtligaKategorier)
+                {
+                    allaKategorier.Items.Add(kategori);
+                }
             }
-            foreach (Kategori kategori in samtligaKategorier)
-            {
-                allaKategorier.Items.Add(kategori);
-            }
-
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
 
 
 
@@ -340,8 +374,9 @@ namespace Poddprojekt25
                 try
                 {
                     listaKategorier.Items.Remove(valdKategori);
-                    sorteraKategorierMinaSidor.Items.Remove(valdKategori);
+                    
                     await KategoriService.RaderaKategoriAsync(valdKategori.Id);
+                    visaKategorier_Click(sender, e);
                     MessageBox.Show("Kategorin har tagits bort. ");
 
                 }
