@@ -16,7 +16,7 @@ namespace Affärslogiklagret
         private readonly IRepository<Avsnitt> avsnittRepo;
         private readonly IMongoClient mongoKlient;
 
-        public PodcastService(RssKlient rssKlient, PodcastRepository podcastRepo, AvsnittRepository avsnittRepo, IMongoClient mongoKlient)
+        public PodcastService(RssKlient rssKlient, IPodcastRepository podcastRepo, IAvsnittRepository avsnittRepo, IMongoClient mongoKlient)
         {
             this.rssKlient = rssKlient;
             this.podcastRepo = podcastRepo;
